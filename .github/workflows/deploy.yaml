@@ -50,7 +50,6 @@ jobs:
           image_suffix: dev
 
   deploy-bot-to-gcp-dev:
-    if: github.ref != 'refs/heads/main'
     name: Deploy to dev
     needs: [build-and-publish-dev, test]
     runs-on: ubuntu-latest
