@@ -3851,60 +3851,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"helsesjekk@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "helsesjekk@workspace:."
-  dependencies:
-    "@navikt/aksel-icons": "npm:^6.7.1"
-    "@navikt/ds-css": "npm:^6.7.1"
-    "@navikt/ds-react": "npm:^6.7.1"
-    "@navikt/ds-tailwind": "npm:^6.7.1"
-    "@navikt/eslint-config-teamsykmelding": "npm:^6.2.0"
-    "@navikt/next-logger": "npm:^1.24.0"
-    "@navikt/oasis": "npm:^3.2.4"
-    "@prisma/client": "npm:^5.17.0"
-    "@slack/bolt": "npm:^3.18.0"
-    "@slack/logger": "npm:^4.0.0"
-    "@slack/types": "npm:^2.11.0"
-    "@types/node": "npm:^20.12.11"
-    "@types/node-cron": "npm:^3.0.11"
-    "@types/react": "npm:18.3.2"
-    "@types/uuid": "npm:^9.0.8"
-    "@typescript-eslint/eslint-plugin": "npm:^7.8.0"
-    "@typescript-eslint/parser": "npm:^7.8.0"
-    autoprefixer: "npm:^10.4.19"
-    bun-types: "npm:^1.1.8"
-    clsx: "npm:^2.1.1"
-    date-fns: "npm:^3.6.0"
-    eslint: "npm:^8.57.0"
-    eslint-config-next: "npm:^14.2.3"
-    eslint-plugin-import: "npm:^2.29.1"
-    husky: "npm:^9.0.11"
-    lint-staged: "npm:^15.2.2"
-    next: "npm:^14.2.3"
-    next-logger: "npm:^4.0.0"
-    nextleton: "npm:^0.6.1"
-    node-cron: "npm:^3.0.3"
-    pino: "npm:^9.0.0"
-    pino-pretty: "npm:^11.0.0"
-    postcss: "npm:^8.4.38"
-    prettier: "npm:^3.2.5"
-    prettier-plugin-prisma: "npm:^5.0.0"
-    prettier-plugin-tailwindcss: "npm:^0.5.14"
-    prisma: "npm:5.15.0"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
-    recharts: "npm:^2.12.7"
-    remeda: "npm:^1.61.0"
-    sharp: "npm:^0.33.3"
-    tailwind-merge: "npm:^2.3.0"
-    tailwindcss: "npm:^3.4.3"
-    typescript: "npm:^5.4.5"
-    uuid: "npm:^9.0.1"
-    zod: "npm:^3.23.8"
-  languageName: unknown
-  linkType: soft
-
 "http-cache-semantics@npm:^4.1.1":
   version: 4.1.1
   resolution: "http-cache-semantics@npm:4.1.1"
@@ -4592,6 +4538,60 @@ __metadata:
   checksum: 10/167eb6ef64cc84b6fa0780ee50c9de456b422a1e18802209234f7c2cf7eae648c7741f32e50d7e24ccb22b24c13154070b01563d642755b156c357431a191e75
   languageName: node
   linkType: hard
+
+"lagspill@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "lagspill@workspace:."
+  dependencies:
+    "@navikt/aksel-icons": "npm:^6.7.1"
+    "@navikt/ds-css": "npm:^6.7.1"
+    "@navikt/ds-react": "npm:^6.7.1"
+    "@navikt/ds-tailwind": "npm:^6.7.1"
+    "@navikt/eslint-config-teamsykmelding": "npm:^6.2.0"
+    "@navikt/next-logger": "npm:^1.24.0"
+    "@navikt/oasis": "npm:^3.2.4"
+    "@prisma/client": "npm:^5.17.0"
+    "@slack/bolt": "npm:^3.18.0"
+    "@slack/logger": "npm:^4.0.0"
+    "@slack/types": "npm:^2.11.0"
+    "@types/node": "npm:^20.12.11"
+    "@types/node-cron": "npm:^3.0.11"
+    "@types/react": "npm:18.3.2"
+    "@types/uuid": "npm:^9.0.8"
+    "@typescript-eslint/eslint-plugin": "npm:^7.8.0"
+    "@typescript-eslint/parser": "npm:^7.8.0"
+    autoprefixer: "npm:^10.4.19"
+    bun-types: "npm:^1.1.8"
+    clsx: "npm:^2.1.1"
+    date-fns: "npm:^3.6.0"
+    eslint: "npm:^8.57.0"
+    eslint-config-next: "npm:^14.2.3"
+    eslint-plugin-import: "npm:^2.29.1"
+    husky: "npm:^9.0.11"
+    lint-staged: "npm:^15.2.2"
+    next: "npm:^14.2.3"
+    next-logger: "npm:^4.0.0"
+    nextleton: "npm:^0.6.1"
+    node-cron: "npm:^3.0.3"
+    pino: "npm:^9.0.0"
+    pino-pretty: "npm:^11.0.0"
+    postcss: "npm:^8.4.38"
+    prettier: "npm:^3.2.5"
+    prettier-plugin-prisma: "npm:^5.0.0"
+    prettier-plugin-tailwindcss: "npm:^0.5.14"
+    prisma: "npm:5.15.0"
+    react: "npm:^18.3.1"
+    react-dom: "npm:^18.3.1"
+    recharts: "npm:^2.12.7"
+    remeda: "npm:^1.61.0"
+    sharp: "npm:^0.33.3"
+    tailwind-merge: "npm:^2.3.0"
+    tailwindcss: "npm:^3.4.3"
+    typescript: "npm:^5.4.5"
+    uuid: "npm:^9.0.1"
+    zod: "npm:^3.23.8"
+  languageName: unknown
+  linkType: soft
 
 "language-subtag-registry@npm:^0.3.20":
   version: 0.3.22
