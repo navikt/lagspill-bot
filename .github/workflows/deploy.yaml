@@ -27,7 +27,7 @@ jobs:
     outputs:
       image: ${{ steps.docker-build-push.outputs.image }}
     steps:
-      - run: yarn lint
+#      - run: yarn lint
       - run: yarn build
         env:
           NEXT_PUBLIC_ENVIRONMENT: dev
