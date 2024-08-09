@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("NAIS_DATABASE_LAGSPILL_BOT_URL")
+}
+
+model Channel {
+  id                Int             @id @default(autoincrement())
+  // Slack channel ID,
+  slackChannelId    String
+  name              String
+  gameCategories    GameCategory[]
+}
+
+model GameTeam {
+  id            Int         @id @default(autoincrement())
+  members       Person[]
+  score         Int?
+  game          Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  gameId        Int
+}
+
+model GameCategory {
+  id                Int             @id @default(autoincrement())
+  games             Game[]
+  name              String
+  channel           Channel         @relation(fields: [channelId], references: [id])
+  channelId         Int
+}
+
+model Game {
+  id                Int             @id @default(autoincrement())
+  teams             GameTeam[]
+  status            Status          @default(OPEN)
+  gameCategory      GameCategory    @relation(fields: [gameCategoryId], references: [id])
+  gameCategoryId    Int
+}
+
+
+model WaitingPerson {
+  userId            Int
+  gameCategoryId    Int
+  isAtOffice        Boolean
+
+  @@id([userId, gameCategoryId])
+}
+
+model Person {
+  id                Int             @id @default(autoincrement())
+  // Slack user ID, only used to keep answers unique per user
+  slackUserId       String
+  name              String
+  anonymous         Boolean         @default(false)
+  gameTeams         GameTeam[]
+}
+
+enum Status {
+  OPEN
+  ACTIVE
+  CLOSED
+}

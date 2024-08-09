@@ -1,0 +1,57 @@
+name: Build and deploy
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+
+  test:
+    name: 'Run bun tests'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.1.0
+      #      - run: yarn test
+      - run: echo "### Tests disabled! Fix when bun fixes" >> $GITHUB_STEP_SUMMARY
+
+
+  build-and-publish-dev:
+    name: 'Dev: Bygg, test og push Docker image'
+    runs-on: ubuntu-latest
+    permissions:
+      packages: 'write'
+      contents: 'read'
+      id-token: 'write'
+    outputs:
+      image: ${{ steps.docker-build-push.outputs.image }}
+    steps:
+      - run: yarn lint
+      - run: yarn build
+        env:
+          NEXT_PUBLIC_ENVIRONMENT: dev
+      - name: Push docker image to GAR
+        uses: nais/docker-build-push@v0
+        id: docker-build-push
+        with:
+          team: aap
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          image_suffix: dev
+
+  deploy-bot-to-gcp-dev:
+    if: github.ref != 'refs/heads/main'
+    name: Deploy to dev
+    needs: [build-and-publish-dev, test]
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-gcp
+          RESOURCE: .nais/nais.yml
+          VAR: image=${{ needs.build-and-publish-dev.outputs.image }}

@@ -1,0 +1,21 @@
+node_modules
+dist
+tsconfig.tsbuildinfo
+
+# yarn 3 with module linker
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# idea
+.idea
+
+# env
+.env
+
+# next
+.next
