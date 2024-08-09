@@ -53,19 +53,17 @@ jobs:
     name: Deploy to dev
     needs: [build-and-publish-dev, test]
     runs-on: ubuntu-latest
+    permissions:
+      packages: 'write'
+      contents: 'read'
+      id-token: 'write'
     environment:
       name: development
     steps:
       - uses: actions/checkout@v4
-      - uses: nais/login@v0
-        id: login
-        with:
-          team: aap
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-      - uses: nais/deploy/actions/deploy@v2
+      - uses: nais/deploy/actions/deploy@v1
         env:
-          PRINT_PAYLOAD: true
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais.yml
           VAR: image=${{ needs.build-and-publish-dev.outputs.image }}
