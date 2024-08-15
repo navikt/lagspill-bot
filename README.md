@@ -33,7 +33,7 @@ Du skal nå kunne kjøre `yarn` for å installere avhengighetene uten 401-feil.
 2. Deretter kan du opprette en ny bot i Slack, bruk slack-manifest.yml i dette repoet til å kickstarte alle permissions du trenger.
 3. Opprett en `.env`-fil på rot i repoet, og legg til følgende:
     ```env
-    NAIS_DATABASE_LAGSPILL_BOT_URL="postgresql://postgres:postgres@localhost:5432/postgres"
+    NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_URL="postgresql://postgres:postgres@localhost:5432/postgres"
     SLACK_SIGNING_SECRET=<secret>
     SLACK_BOT_TOKEN=<secret>
     SLACK_APP_TOKEN=<secret>
