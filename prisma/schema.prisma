@@ -1,7 +1,7 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
-
 datasource db {
   provider = "postgresql"
   url      = env("NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_URL")
