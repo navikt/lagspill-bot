@@ -9,8 +9,7 @@ export const prisma = lazyNextleton('prisma', () => {
 
     const connectionString = isLocal
         ? `${process.env.LAGSPILL_BOT_DB_URL}`
-        : `${process.env.NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_URL}`
-        // : `postgresql://${process.env.NAIS_LAGSPILL_BOT_LAGSPILL_BOT_USERNAME}:${process.env.NAIS_LAGSPILL_BOT_LAGSPILL_BOT_PASSWORD}@${process.env.NAIS_LAGSPILL_BOT_LAGSPILL_BOT_HOST}:${process.env.NAIS_LAGSPILL_BOT_LAGSPILL_BOT_PORT}/${process.env.NAIS_LAGSPILL_BOT_LAGSPILL_BOT_DATABASE}?sslcert=..${process.env.NAIS_LAGSPILL_BOT_LAGSPILL_BOT_SSLCERT}`
+        : `postgresql://${process.env.NAIS_LAGSPILL_BOT_LAGSPILL_BOT_USERNAME}:${process.env.NAIS_LAGSPILL_BOT_LAGSPILL_BOT_PASSWORD}@${process.env.NAIS_LAGSPILL_BOT_LAGSPILL_BOT_HOST}:${process.env.NAIS_LAGSPILL_BOT_LAGSPILL_BOT_PORT}/${process.env.NAIS_LAGSPILL_BOT_LAGSPILL_BOT_DATABASE}?sslcert=..${process.env.NAIS_LAGSPILL_BOT_LAGSPILL_BOT_SSLCERT}`
 
     const pool = new Pool({ connectionString })
     const adapter = new PrismaPg(pool)
