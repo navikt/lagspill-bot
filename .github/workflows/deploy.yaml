@@ -25,6 +25,7 @@ jobs:
       id-token: 'write'
     env:
       NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+      NODE_ENV: production
     outputs:
       image: ${{ steps.docker-build-push.outputs.image }}
     steps:
@@ -36,6 +37,10 @@ jobs:
           cache: yarn
       - name: install dependencies Yarn
         run: yarn install --immutable
+      - name: Workspaces focus
+        run: yarn workspaces focus -A --production
+      - name: Prisma generate
+        run: yarn prisma:generate
 #      - run: yarn lint
       - run: yarn build
         env:

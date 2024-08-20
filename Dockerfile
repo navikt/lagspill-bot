@@ -12,8 +12,8 @@ COPY prisma /app/prisma
 
 ENV NODE_ENV=production
 
-RUN yarn workspaces focus -A --production
-RUN yarn prisma:generate
+#RUN yarn workspaces focus -A --production
+#RUN yarn prisma:generate
 
 FROM node:20-alpine as runner
 
