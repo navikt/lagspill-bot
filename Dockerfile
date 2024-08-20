@@ -34,13 +34,12 @@ COPY --from=build /app/prisma /app/prisma
 COPY next-logger.config.js /app/
 COPY public /app/public/
 COPY .next /app/.next
+COPY run.sh /app/run.sh
+RUN chmod +x /app/run.sh
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS '-r next-logger'
 
 EXPOSE 3000
 
-CMD [
-"LAGSPILL_BOT_DB_URL=postgresql://$NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_USERNAME:$NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_PASSWORD@$NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_HOST:$NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_PORT/$NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_DATABASE?sslcert=..$NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_SSLCERT",
-"yarn",
-"start:migrate"]
+CMD ["/app/run.sh"]
