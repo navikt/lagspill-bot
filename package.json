@@ -15,7 +15,7 @@
         "test": "bun test",
         "start:migrate": "yarn prisma:migrate && yarn start",
         "prisma:generate": "prisma generate",
-        "prisma:migrate": "LAGSPILL_BOT_DB_URL=postgresql://$NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_USERNAME:$NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_PASSWORD@$NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_HOST:$NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_PORT/$NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_DATABASE?sslcert=..$NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_SSLCERT; echo $LAGSPILL_BOT_DB_URL; prisma migrate deploy",
+        "prisma:migrate": "prisma migrate deploy",
         "prisma:migrate-dev": "prisma migrate dev",
         "prisma:seed": "bun run seed/seed.ts | pino-pretty",
         "prepare": "husky"
