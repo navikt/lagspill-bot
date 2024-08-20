@@ -19,6 +19,7 @@ COPY public /app/public/
 COPY .next /app/.next
 COPY run.sh /app/run.sh
 RUN chmod +x /app/run.sh
+RUN chmod +w /app/node_modules/@prisma/engines
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS '-r next-logger'
