@@ -24,8 +24,8 @@ spec:
   leaderElection: true
   gcp:
     sqlInstances:
-      - tier: db-f1-micro
       - type: POSTGRES_14
+        tier: db-f1-micro
         databases:
           - name: lagspill-bot
   accessPolicy:
