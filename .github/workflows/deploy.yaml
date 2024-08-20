@@ -37,14 +37,14 @@ jobs:
           cache: yarn
       - name: install dependencies Yarn
         run: yarn install --immutable
+      - run: yarn build
+        env:
+          NEXT_PUBLIC_ENVIRONMENT: dev
       - name: Workspaces focus
         run: yarn workspaces focus -A --production
       - name: Prisma generate
         run: yarn prisma:generate
 #      - run: yarn lint
-      - run: yarn build
-        env:
-          NEXT_PUBLIC_ENVIRONMENT: dev
       - name: Push docker image to GAR
         uses: nais/docker-build-push@v0
         id: docker-build-push
