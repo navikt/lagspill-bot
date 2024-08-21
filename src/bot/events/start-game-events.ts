@@ -59,8 +59,8 @@ export function configureStartGameEventsHandler(app: App): void {
             throw new Error('invalid input for number of teams')
         }
 
-        const physicalTeams = generateRandomTeams(numberOfPhysicalTeams, participants)
-        const digitalTeams = generateRandomTeams(numberOfDigitalTeams, participants)
+        const physicalTeams = generateRandomTeams(numberOfPhysicalTeams, participants.filter(participant => participant.isAtOffice))
+        const digitalTeams = generateRandomTeams(numberOfDigitalTeams, participants.filter(participant => !participant.isAtOffice))
         const gameTeamsPromises = [...physicalTeams, ...digitalTeams]
             .map(team => {
                 const teamUserIds = team.map(waitingPerson => ({id: waitingPerson.userId}));
