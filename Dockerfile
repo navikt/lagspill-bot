@@ -39,7 +39,7 @@ RUN apk update \
   && apk add openssl
 RUN chmod +x /app/run.sh
 RUN mkdir /app/ssl
-RUN chmod +rwx /app/ssl
+RUN chmod +w /app/ssl
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS '-r next-logger'
