@@ -1,7 +1,7 @@
 import {App} from "../../bot/app";
 import {botLogger} from "../../bot/bot-logger";
 import {
-    addTeamsToGame, clearWaitingRoomForGameCategory,
+    addTeamsToGame,
     getOpenGameById,
     getPeopleInWaitingRoom,
     newGameTeam, startGameWithId
@@ -35,7 +35,7 @@ export function configureStartGameEventsHandler(app: App): void {
 
         await ack()
 
-        const waitingRoom = await getPeopleInWaitingRoom(game.gameCategoryId)
+        const waitingRoom = await getPeopleInWaitingRoom(game.id)
 
         await client.views.open({
             trigger_id: body.trigger_id,
@@ -49,7 +49,7 @@ export function configureStartGameEventsHandler(app: App): void {
             botLogger.error(`submitStartgameGameCallback - No game for game: ${gameId}`)
             throw new Error('No game')
         }
-        const participants = await getPeopleInWaitingRoom(game.gameCategoryId)
+        const participants = await getPeopleInWaitingRoom(game.id)
         const inputPhysical = view.state.values.antall_fysiske_lag.input.value || '';
         const inputDigital = view.state.values.antall_digitale_lag.input.value || '';
         const numberOfPhysicalTeams = Number.parseInt(inputPhysical);
@@ -70,7 +70,6 @@ export function configureStartGameEventsHandler(app: App): void {
         const gameTeamIds = gameTeams.map(team => ({id: team.id}))
         await addTeamsToGame(game.id, gameTeamIds)
         await startGameWithId(game.id)
-        await clearWaitingRoomForGameCategory(game.gameCategoryId);
         await ack()
         await client.chat.postMessage({
             channel: slackChannelId,

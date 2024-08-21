@@ -80,7 +80,7 @@ export function configureSignupEventsHandler(app: App): void {
         const isAtTheOfficeText = view.state.values?.isAtTheOffice?.checkbox?.selected_option?.value || ''
         const isAtTheOffice = isAtTheOfficeText === 'ja'
         const person = await getOrCreatePerson(slackUserId, slackUserName)
-        await addPersonToWaitingRoom(person.id, game.gameCategoryId, isAtTheOffice)
+        await addPersonToWaitingRoom(person.id, game.gameCategoryId, game.id, isAtTheOffice)
 
         await ack()
         await client.chat.postEphemeral({
