@@ -2,7 +2,7 @@ import { App } from '../../bot/app'
 import { botLogger } from '../../bot/bot-logger'
 import {
     addPersonToWaitingRoom,
-    getOrCreatePerson, createNewGame, getGameById, getOpenGameById
+    getOrCreatePerson, createNewGame, getOpenGameById
 } from '../../db'
 import { signUpForGame, signUpForGameActionId} from '../../bot/messages/sign-up-for-game'
 import { signupModal, submitSignupToGameCallbackId } from '../../bot/modals/signupModal'
@@ -69,7 +69,7 @@ export function configureSignupEventsHandler(app: App): void {
             throw new Error('parseInt Error')
         }
 
-        const game = await getGameById(gameId)
+        const game = await getOpenGameById(gameId)
         if (!game) {
             botLogger.error(`Game not found for gameId: ${gameId}`)
             throw new Error('Missing channel')
