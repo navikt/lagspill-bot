@@ -1,5 +1,5 @@
 import {botLogger} from "../../bot/bot-logger";
-import {clearWaitingRoomForGameCategory, deleteGameWithId, getGameById} from "../../db";
+import {deleteGameWithId, getGameById} from "../../db";
 import {App} from "../../bot/app";
 import {deleteGameActionId} from "../../bot/messages/message-actions";
 
@@ -24,7 +24,6 @@ export function configureDeleteGameEventsHandler(app: App): void {
         }
 
         await deleteGameWithId(game.id);
-        await clearWaitingRoomForGameCategory(game.gameCategoryId)
         await ack()
         await client.chat.postEphemeral({
             channel: slackChannelId,

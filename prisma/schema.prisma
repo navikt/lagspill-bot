@@ -42,6 +42,7 @@ model Game {
 model WaitingPerson {
   userId            Int
   gameCategoryId    Int
+  gameId            Int
   isAtOffice        Boolean
 
   @@id([userId, gameCategoryId])
