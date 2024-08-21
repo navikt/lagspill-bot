@@ -35,6 +35,8 @@ COPY next.config.mjs /app/
 COPY public /app/public/
 COPY .next /app/.next
 COPY run.sh /app/run.sh
+RUN apt-get update \
+  && apt-get -y install openssl
 RUN chmod +x /app/run.sh
 RUN mkdir /app/ssl
 RUN chmod +rwx /app/ssl
