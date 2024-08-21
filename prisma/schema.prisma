@@ -1,10 +1,9 @@
 generator client {
   provider = "prisma-client-js"
 }
-
 datasource db {
   provider = "postgresql"
-  url      = env("NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_URL")
+  url      = env("LAGSPILL_BOT_DB_URL")
 }
 
 model Channel {
