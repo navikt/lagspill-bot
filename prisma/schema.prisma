@@ -41,18 +41,18 @@ model Game {
 
 model WaitingPerson {
   userId            Int
-  gameCategoryId    Int
   gameId            Int
   isAtOffice        Boolean
 
-  @@id([userId, gameCategoryId])
+  @@id([userId, gameId])
 }
 
 model Person {
   id                Int             @id @default(autoincrement())
   // Slack user ID, only used to keep answers unique per user
   slackUserId       String
-  name              String
+  name              String?
+  displayName       String?
   anonymous         Boolean         @default(false)
   gameTeams         GameTeam[]
 }

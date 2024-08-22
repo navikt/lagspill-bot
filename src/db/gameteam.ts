@@ -8,7 +8,7 @@ export async function getGameTeamWithTeamMembers(gameTeamId: number): Promise<Ga
         },
         include: {
             members: {
-                select: { name: true }
+                select: { displayName: true }
             }
         }
     })
@@ -25,7 +25,7 @@ export async function newGameTeam(gameId: number, memberIds: {id: number}[]): Pr
         },
         include: {
             members: {
-                select: { name: true }
+                select: { displayName: true }
             }
         }
     })

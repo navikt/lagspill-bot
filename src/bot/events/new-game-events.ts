@@ -2,7 +2,7 @@ import { App } from '../../bot/app'
 import { botLogger } from '../../bot/bot-logger'
 import {
     addPersonToWaitingRoom,
-    getOrCreatePerson, createNewGame, getOpenGameById
+    getOrCreatePerson, createNewGame, getOpenGameById, getPerson, updatePersonDisplayName
 } from '../../db'
 import { signUpForGame, signUpForGameActionId} from '../../bot/messages/sign-up-for-game'
 import { signupModal, submitSignupToGameCallbackId } from '../../bot/modals/signupModal'
@@ -39,6 +39,8 @@ export function configureSignupEventsHandler(app: App): void {
     app.action(signUpForGameActionId, async ({ ack, body, client }) => {
         const userId = body.user.id
         const slackChannelId = body.channel?.id ?? ''
+        botLogger.info('useruser')
+        botLogger.info(body)
         const gameId = getIdFromMessageAction(body, signUpForGameActionId)
         if(!gameId) {
             throw new Error('no gameid for signupforgameactionid')
@@ -52,13 +54,15 @@ export function configureSignupEventsHandler(app: App): void {
                 user: userId,
             })
         }
+        const person = await getOrCreatePerson(userId)
+
 
         await ack()
 
         // Åpne modal for påmelding
         await client.views.open({
             trigger_id: body.trigger_id,
-            view: signupModal(slackChannelId, gameId),
+            view: signupModal(slackChannelId, gameId, person?.displayName),
         })
     })
 
@@ -76,11 +80,18 @@ export function configureSignupEventsHandler(app: App): void {
         }
 
         const slackUserId = body.user.id
-        const slackUserName = body.user.name
+        const userDisplayName = view.state.values?.userdisplayname?.input?.value || ''
         const isAtTheOfficeText = view.state.values?.isAtTheOffice?.checkbox?.selected_option?.value || ''
         const isAtTheOffice = isAtTheOfficeText === 'ja'
-        const person = await getOrCreatePerson(slackUserId, slackUserName)
-        await addPersonToWaitingRoom(person.id, game.gameCategoryId, game.id, isAtTheOffice)
+        const person = await getPerson(slackUserId)
+        if(!person){
+            botLogger.error(`Person not found for slackUserId: ${slackUserId}`)
+            throw new Error('parseInt Error')
+        }
+        if(userDisplayName){
+            await updatePersonDisplayName(person.id, userDisplayName)
+        }
+        await addPersonToWaitingRoom(person.id, game.id, isAtTheOffice)
 
         await ack()
         await client.chat.postEphemeral({

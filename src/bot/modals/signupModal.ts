@@ -5,7 +5,21 @@ export const submitSignupToGameCallbackId = 'submit-signup-to-game';
 export function signupModal(
     slackChannelId: string,
     gameId: number,
+    userDisplayName: string,
 ): ModalView {
+    const missingDisplaynameInput = {
+        type: 'input',
+        block_id: 'userdisplayname',
+        element: {
+            type: 'plain_text_input',
+            action_id: 'input',
+        },
+        label: {
+            type: 'plain_text',
+            text: `Hva heter du? (Dette vil bli ditt visningsnavn i lagspill-appen)`,
+            emoji: true,
+        },
+    }
     return {
         type: 'modal',
         callback_id: submitSignupToGameCallbackId,
@@ -26,6 +40,7 @@ export function signupModal(
         },
         private_metadata: gameAndChannelInMetadata(slackChannelId, gameId),
         blocks: [
+            ...(userDisplayName ? [] : [missingDisplaynameInput]),
             {
                 type: 'input',
                 block_id: 'isAtTheOffice',
