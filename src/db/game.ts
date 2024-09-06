@@ -37,6 +37,11 @@ export async function getOpenGame(gameCategoryId: number): Promise<Game | null> 
 export async function getOpenGameById(gameId: number): Promise<Game | null> {
     return prisma().game.findUnique({
         where: { id: gameId, status: 'OPEN' },
+        include: {
+            gameCategory: {
+                select: { name: true, gamelink: true }
+            }
+        }
     })
 }
 export async function getActiveGame(gameCategoryId: number): Promise<Game | null> {
@@ -47,6 +52,11 @@ export async function getActiveGame(gameCategoryId: number): Promise<Game | null
 export async function getActiveGameById(gameId: number): Promise<Game | null> {
     return prisma().game.findUnique({
         where: { id: gameId, status: 'ACTIVE' },
+        include: {
+            gameCategory: {
+                select: { name: true, gamelink: true }
+            }
+        }
     })
 }
 export async function getGameById(gameId: number): Promise<Game | null> {

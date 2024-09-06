@@ -29,7 +29,7 @@ export function postGameResultsBlocks(gameTeams: GameTeam[]): (KnownBlock | Bloc
         }
     ]
 }
-export function postGameTeamsMessageBlocks(gameTeams: GameTeam[]): (KnownBlock | Block)[] {
+export function postGameTeamsMessageBlocks(gameTeams: GameTeam[], gamelink?: string): (KnownBlock | Block)[] {
     const teams: Block[][] = gameTeams.map((team, index)=> ([
         {
             type: 'section',
@@ -46,6 +46,13 @@ export function postGameTeamsMessageBlocks(gameTeams: GameTeam[]): (KnownBlock |
             }
         }
     ]));
+    const gamelinkBlock = gamelink && {
+        type: "section",
+        text: {
+            type: "mrkdwn",
+            text: `<${gamelink}|Link til spill>`
+        }
+    };
     return [
         {
             type: 'header',
@@ -55,6 +62,7 @@ export function postGameTeamsMessageBlocks(gameTeams: GameTeam[]): (KnownBlock |
                 emoji: true,
             },
         },
+        ...(gamelinkBlock ? [gamelinkBlock] : []),
         ...teams.flat()
     ]
 }

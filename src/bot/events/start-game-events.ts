@@ -49,6 +49,8 @@ export function configureStartGameEventsHandler(app: App): void {
             botLogger.error(`submitStartgameGameCallback - No game for game: ${gameId}`)
             throw new Error('No game')
         }
+        botLogger.info('open game')
+        botLogger.info(game)
         const participants = await getPeopleInWaitingRoom(game.id)
         const inputPhysical = view.state.values.antall_fysiske_lag.input.value || '';
         const inputDigital = view.state.values.antall_digitale_lag.input.value || '';
@@ -73,7 +75,7 @@ export function configureStartGameEventsHandler(app: App): void {
         await ack()
         await client.chat.postMessage({
             channel: slackChannelId,
-            blocks: postGameTeamsMessageBlocks(gameTeams),
+            blocks: postGameTeamsMessageBlocks(gameTeams, game.gameCategory?.gamelink),
         })
 
     })

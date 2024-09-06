@@ -28,6 +28,7 @@ model GameCategory {
   name              String
   channel           Channel         @relation(fields: [channelId], references: [id])
   channelId         Int
+  gamelink          String?
 }
 
 model Game {
