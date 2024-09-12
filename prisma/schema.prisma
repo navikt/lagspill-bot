@@ -20,6 +20,7 @@ model GameTeam {
   score         Int?
   game          Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
   gameId        Int
+  placement     Int?
 }
 
 model GameCategory {
@@ -37,6 +38,7 @@ model Game {
   status            Status          @default(OPEN)
   gameCategory      GameCategory    @relation(fields: [gameCategoryId], references: [id])
   gameCategoryId    Int
+  date              DateTime?       @default(now())
 }
 
 

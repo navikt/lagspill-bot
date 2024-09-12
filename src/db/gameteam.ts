@@ -30,15 +30,20 @@ export async function newGameTeam(gameId: number, memberIds: {id: number}[]): Pr
         }
     })
 }
-export async function updateScore(gameTeamId: number, score: number): Promise<GameTeam> {
+export async function updateScoreAndPlacement(gameTeamId: number, score: number, placement: number): Promise<GameTeam> {
     return await prisma().gameTeam.update({
         where: { id: gameTeamId },
         data: {
-            score
+            score,
+            placement
         },
+        include: {
+            members: {
+                select: { displayName: true }
+            }
+        }
     })
 }
-
 export async function getGameTeamsSortedByScoreFromGame(game: Game): Promise<GameTeam[]> {
     const teamsPromises = game.teams.map( (team: {id: number}) => getGameTeamWithTeamMembers(team.id));
     const teams = await Promise.all(teamsPromises);

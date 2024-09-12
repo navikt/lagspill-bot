@@ -1,19 +1,25 @@
-import {GameTeam} from ".prisma/client";
-import {Block, KnownBlock} from "@slack/types";
-import {getTeamMembersString} from "../../utils/gameteam";
+import { GameTeam } from '.prisma/client'
+import { Block, KnownBlock } from '@slack/types'
+
+import { getTeamMembersString } from '../../utils/gameteam'
+import {botLogger} from "../bot-logger";
 
 export function postGameResultsBlocks(gameTeams: GameTeam[]): (KnownBlock | Block)[] {
-    const fields = gameTeams.map((team: GameTeam, index: number) => {
-        return [{
-            type: 'mrkdwn',
-            text: `*Plass nr ${index + 1}*\n ${getTeamMembersString(team)}`
-        },
+    const fields = gameTeams.map((team: GameTeam) => {
+        return [
             {
                 type: 'mrkdwn',
-                text: `${team.score} poeng`
-            }
-            ]
-    });
+                text: `*Plass nr ${team.placement}*\n ${getTeamMembersString(team)}`,
+            },
+            {
+                type: 'mrkdwn',
+                text: `${team.score} poeng`,
+            },
+        ]
+    })
+    botLogger.info('postgameresults')
+    botLogger.info(fields)
+    botLogger.info(fields.flat())
     return [
         {
             type: 'header',
@@ -30,29 +36,29 @@ export function postGameResultsBlocks(gameTeams: GameTeam[]): (KnownBlock | Bloc
     ]
 }
 export function postGameTeamsMessageBlocks(gameTeams: GameTeam[], gamelink?: string): (KnownBlock | Block)[] {
-    const teams: Block[][] = gameTeams.map((team, index)=> ([
+    const teams: Block[][] = gameTeams.map((team, index) => [
         {
             type: 'section',
             text: {
                 type: 'plain_text',
                 text: `Lag ${index + 1}`,
-            }
+            },
         },
         {
             type: 'section',
             text: {
                 type: 'plain_text',
                 text: `${getTeamMembersString(team)}`,
-            }
-        }
-    ]));
+            },
+        },
+    ])
     const gamelinkBlock = gamelink && {
-        type: "section",
+        type: 'section',
         text: {
-            type: "mrkdwn",
-            text: `<${gamelink}|Link til spill>`
-        }
-    };
+            type: 'mrkdwn',
+            text: `<${gamelink}|Link til spill>`,
+        },
+    }
     return [
         {
             type: 'header',
@@ -63,6 +69,6 @@ export function postGameTeamsMessageBlocks(gameTeams: GameTeam[], gamelink?: str
             },
         },
         ...(gamelinkBlock ? [gamelinkBlock] : []),
-        ...teams.flat()
+        ...teams.flat(),
     ]
 }

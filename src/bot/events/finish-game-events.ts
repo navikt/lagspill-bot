@@ -2,10 +2,9 @@ import { App } from '../../bot/app'
 import {botLogger} from "../../bot/bot-logger";
 import {
     finishGameWithId, getActiveGameById,
-    getGameTeamsSortedByScoreFromGame,
     getGameTeamWithTeamMembers,
     getGameWithGameTeams,
-    updateScore
+    updateScoreAndPlacement
 } from "../../db";
 import {postGameResultsBlocks} from "../../bot/messages/post-game-teams";
 import {finishGameActionId} from "../../bot/messages/message-actions";
@@ -54,25 +53,32 @@ export function configureFinishGameEventsHandler(app: App): void {
         }
         const teamScores = view.state.values;
         const gameTeamIds = Object.keys(teamScores);
-        const gameTeamPromises = gameTeamIds.map(idStr => {
+        const sortedScoresWithIds: {id: number, score: number}[] = gameTeamIds.map(idStr => {
             const id = Number.parseInt(idStr);
             const score = Number.parseInt(teamScores[idStr].score.value);
-            botLogger.info(`update score for gameTeam ${id}, score: ${score}`)
-            return updateScore(id, score);
+            return {id, score};
+        }).sort((a, b) => b.score - a.score)
+        botLogger.info('sortedScoresWithIds')
+        botLogger.info(sortedScoresWithIds)
+        const gameTeamPromises = sortedScoresWithIds.map((idAndScore, index) => {
+            botLogger.info(`update score for gameTeam ${idAndScore.id}, score: ${idAndScore.score}`)
+            return updateScoreAndPlacement(idAndScore.id, idAndScore.score, index + 1);
         })
-        await Promise.all(gameTeamPromises);
+        const updatedGameTeams = await Promise.all(gameTeamPromises);
+        botLogger.info(updatedGameTeams)
         await finishGameWithId(gameId);
-        const gameWithGameTeams = await getGameWithGameTeams(gameId);
-        const sortedGameTeams = await getGameTeamsSortedByScoreFromGame(gameWithGameTeams)
+
         await ack()
         await client.chat.postEphemeral({
             channel: slackChannelId,
             text: 'Takk, spillet er fullført. Start et nytt spill med kommandoen /lagspill',
             user: slackUserId,
         })
+        botLogger.info('updatedGameTeams')
+        botLogger.info(updatedGameTeams)
         await client.chat.postMessage({
             channel: slackChannelId,
-            blocks: postGameResultsBlocks(sortedGameTeams),
+            blocks: postGameResultsBlocks(updatedGameTeams),
         })
     })
 }

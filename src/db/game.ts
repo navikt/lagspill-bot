@@ -92,3 +92,11 @@ export async function addTeamsToGame(gameId: number, teamIds: {id: number}[]): P
        }
    })
 }
+export async function allGamesForPersonInGameCategory(personId: number, gameCategoryId: number): Promise<Array<Game>> {
+    await prisma().game.findMany({
+        where: { gameCategoryId },
+        include: {
+            teams: { }
+        }
+    })
+}

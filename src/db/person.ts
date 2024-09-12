@@ -18,3 +18,9 @@ export async function updatePersonDisplayName(personId: number, displayName: str
         data: { displayName }
     })
 }
+export async function getAllGameTeamsForPersonInGameCategory(personId: number, gameCategoryId: number): Promise<Person> {
+    return prisma().person.findUnique({
+        where: {id: personId},
+        include: {gameTeams: true}
+    })
+}

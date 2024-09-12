@@ -3,7 +3,7 @@ import {
     getActiveGame,
     getGameCategories,
     getOpenGame,
-    getOrCreateChannel,
+    getOrCreateChannel, getPerson,
 } from '../../db'
 import { botLogger } from '../bot-logger'
 import {GameCategory} from ".prisma/client";
@@ -17,8 +17,29 @@ import {
 export function configureCommandsHandler(app: App): void {
     // /helsesjekk create-game
     app.command(/(.*)/, async ({ command, ack, respond }) => {
-        console.log(`User wants to create game for slack channel ${command.channel_id}`)
-        botLogger.info(`User wants to create game for slack channel ${command.channel_id}`)
+
+        botLogger.info(`lagspill-bot ${command.text}`)
+        if(command.text === 'min-statistikk') {
+            //todo
+            await ack();
+            const person = await getPerson(command.user_id);
+            if(!person) {
+                await respond({
+                    response_type: 'ephemeral',
+                    text: ' statistikk',
+                })
+            }
+            const gameCategories = await getGameWithGameCategoriesForPerson(person.id);
+            const personalGameCategoryStatsBlocks = await getPersonalGameCategoryStatsBlocks(command.user_id)
+            await respond({
+                response_type: 'ephemeral',
+                text: 'Din statistikk',
+                blocks: personalGameCategoryStatsBlocks
+
+            })
+        } else if(command.text === 'toppliste') {
+           //todo
+        }
 
         const channel = await getOrCreateChannel(command.channel_id, command.channel_name);
         botLogger.info('channel')

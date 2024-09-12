@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Game" ADD COLUMN     "date" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "GameTeam" ADD COLUMN     "placement" INTEGER;
