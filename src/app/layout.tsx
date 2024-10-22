@@ -1,5 +1,4 @@
 import 'next-logger'
-import './global.css'
 
 import { PropsWithChildren, ReactElement } from 'react'
 
