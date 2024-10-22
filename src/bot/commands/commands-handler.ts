@@ -26,19 +26,21 @@ export function configureCommandsHandler(app: App): void {
             if(!person) {
                 await respond({
                     response_type: 'ephemeral',
-                    text: ' statistikk',
+                    text: 'fant ikke person',
                 })
             }
-            const gameCategories = await getGameWithGameCategoriesForPerson(person.id);
-            const personalGameCategoryStatsBlocks = await getPersonalGameCategoryStatsBlocks(command.user_id)
-            await respond({
-                response_type: 'ephemeral',
-                text: 'Din statistikk',
-                blocks: personalGameCategoryStatsBlocks
-
-            })
+            // const gameCategories = await getGameWithGameCategoriesForPerson(person.id);
+            // const personalGameCategoryStatsBlocks = await getPersonalGameCategoryStatsBlocks(command.user_id)
+            // await respond({
+            //     response_type: 'ephemeral',
+            //     text: 'Din statistikk',
+            //     blocks: personalGameCategoryStatsBlocks
+            //
+            // })
+            // return;
         } else if(command.text === 'toppliste') {
            //todo
+            return;
         }
 
         const channel = await getOrCreateChannel(command.channel_id, command.channel_name);
