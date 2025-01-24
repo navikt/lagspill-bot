@@ -9,6 +9,8 @@ COPY .yarn /app/.yarn
 COPY .yarnrc.yml /app/
 COPY yarn.lock /app/
 COPY prisma /app/prisma
+RUN apk update \
+  && apk add openssl
 
 ENV NODE_ENV=production
 
