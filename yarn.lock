@@ -304,15 +304,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/client@npm:5.21.1":
-  version: 5.21.1
-  resolution: "@prisma/client@npm:5.21.1"
+"@prisma/client@npm:5.22.0":
+  version: 5.22.0
+  resolution: "@prisma/client@npm:5.22.0"
   peerDependencies:
     prisma: "*"
   peerDependenciesMeta:
     prisma:
       optional: true
-  checksum: 10/f4cf3e77682eabf8d67d9d82980ba1bfa37cdfbce03159a14fa530b3fe5241cd4a2808d8cd1bdff1ba29522b8cc3e4c53332ed8d0b54ba00483057a3d1d2d473
+  checksum: 10/991d7410ded2d6c824303ac222ae94df4f1bf42240dda97c710cfee3a3bc59fef65c73e1ee55177e38d12f4d7dfc0a047748f98b4e3026dddd65f462684cd2d1
   languageName: node
   linkType: hard
 
@@ -3846,7 +3846,7 @@ __metadata:
   dependencies:
     "@navikt/eslint-config-teamsykmelding": "npm:^6.2.0"
     "@navikt/next-logger": "npm:^1.32.0"
-    "@prisma/client": "npm:5.21.1"
+    "@prisma/client": "npm:5.22.0"
     "@slack/bolt": "npm:^3.21.4"
     "@slack/logger": "npm:^4.0.0"
     "@slack/types": "npm:^2.13.1"
