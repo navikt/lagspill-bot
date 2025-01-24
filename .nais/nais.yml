@@ -36,9 +36,9 @@ spec:
         - host: wss-primary.slack.com
   liveness:
     path: /api/internal/is_alive
-    initialDelay: 10
+    initialDelay: 20
   readiness:
     path: /api/internal/is_ready
-    initialDelay: 10
+    initialDelay: 20
   envFrom:
     - secret: lagspill-bot-secrets
