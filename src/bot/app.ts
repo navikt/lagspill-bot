@@ -11,7 +11,7 @@ const loggerAdapter: Logger = {
     info: (msg) => slackLogger.info(msg),
     warn: (msg) => slackLogger.warn(msg),
     error: (msg) => {
-        if (msg === 'Secondary WebSocket error occurred:') {
+        if (msg?.includes && msg.includes('Secondary WebSocket error occurred:')) {
             slackLogger.warn(msg)
         } else {
             slackLogger.error(msg)

@@ -1,4 +1,5 @@
 import {prisma, Person} from "./prisma";
+import {GameTeam} from ".prisma/client";
 
 export async function getOrCreatePerson(slackUserId: string): Promise<Person> {
     const person = await prisma().person.findFirst({ where: { slackUserId }})
@@ -18,9 +19,17 @@ export async function updatePersonDisplayName(personId: number, displayName: str
         data: { displayName }
     })
 }
-export async function getAllGameTeamsForPersonInGameCategory(personId: number, gameCategoryId: number): Promise<Person> {
-    return prisma().person.findUnique({
+export async function getAllGameTeamsForPersonInGameCategory(personId: number, gameCategoryId: number): Promise<Array<GameTeam>> {
+    const personWithGameTeams = await prisma().person.findUnique({
         where: {id: personId},
-        include: {gameTeams: true}
+        include: {
+            gameTeams: {
+                include: {game: true}
+            }
+        }
     })
+    return personWithGameTeams?.gameTeams?.filter(gameTeam =>
+        gameTeam.game.gameCategoryId === gameCategoryId
+    ) || []
+
 }
