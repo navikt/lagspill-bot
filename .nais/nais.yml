@@ -21,7 +21,6 @@ spec:
     - emptyDir:
         medium: Memory
       mountPath: /app/.next/cache
-  leaderElection: true
   gcp:
     sqlInstances:
       - type: POSTGRES_14
