@@ -1,0 +1,24 @@
+version: 2
+registries:
+  npm-github:
+    type: npm-registry
+    url: https://npm.pkg.github.com
+    token: ${{ secrets.READER_TOKEN }}
+updates:
+  - package-ecosystem: 'docker'
+    directory: "/"
+    schedule:
+      interval: weekly
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: monthly
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    registries: '*'
+    ignore:
+      - dependency-name: '*'
+        update-types: [ 'version-update:semver-major' ]
