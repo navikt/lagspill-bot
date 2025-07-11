@@ -56,7 +56,7 @@
         "prettier": "^3.3.3",
         "prettier-plugin-prisma": "^5.0.0",
         "prettier-plugin-tailwindcss": "^0.5.14",
-        "typescript": "^5.4.5"
+        "typescript": "^5.8.3"
     },
     "resolutions": {
         "eslint-plugin-react-hooks": "5.0.0-canary-7118f5dd7-20230705"
