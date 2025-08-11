@@ -577,7 +577,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=18.0.0, @types/node@npm:^20.12.11, @types/node@npm:~20.12.8":
+"@types/node@npm:*, @types/node@npm:>=18.0.0, @types/node@npm:^20.12.11":
   version: 20.12.11
   resolution: "@types/node@npm:20.12.11"
   dependencies:
@@ -687,15 +687,6 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 10/5236b6c54817bdf17674337db5776bb34a876b77a90d885d0f70084c9d453cc2f21703207cc1147d33a9e49a4306773830fbade4729b01ffe33ef0c82cd4c701
-  languageName: node
-  linkType: hard
-
-"@types/ws@npm:~8.5.10":
-  version: 8.5.10
-  resolution: "@types/ws@npm:8.5.10"
-  dependencies:
-    "@types/node": "npm:*"
-  checksum: 10/9b414dc5e0b6c6f1ea4b1635b3568c58707357f68076df9e7cd33194747b7d1716d5189c0dbdd68c8d2521b148e88184cf881bac7429eb0e5c989b001539ed31
   languageName: node
   linkType: hard
 
@@ -1517,13 +1508,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bun-types@npm:^1.1.8":
-  version: 1.1.8
-  resolution: "bun-types@npm:1.1.8"
+"bun-types@npm:^1.2.20":
+  version: 1.2.20
+  resolution: "bun-types@npm:1.2.20"
   dependencies:
-    "@types/node": "npm:~20.12.8"
-    "@types/ws": "npm:~8.5.10"
-  checksum: 10/6580b6ec39ce6bfe83fbb1aac5103688427673ac6424e162cf4f54feb94decfdb74bc123c66c51a33f4e0897e9af937c62f020be27934e45974c19c601490726
+    "@types/node": "npm:*"
+  peerDependencies:
+    "@types/react": ^19
+  checksum: 10/7d390bc3c7406cc2492814377f149c8986836aaf9936df507c07673c6e7117ecb754d80106a7b7f3a88019f2e22c22f4c28f7673a82d4dc984951bd51d8f4814
   languageName: node
   linkType: hard
 
@@ -3949,7 +3941,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^7.8.0"
     "@typescript-eslint/parser": "npm:^7.8.0"
     autoprefixer: "npm:^10.4.19"
-    bun-types: "npm:^1.1.8"
+    bun-types: "npm:^1.2.20"
     clsx: "npm:^2.1.1"
     date-fns: "npm:^3.6.0"
     eslint: "npm:^8.57.0"
