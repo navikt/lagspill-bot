@@ -25,7 +25,7 @@
         "@prisma/client": "5.22.0",
         "@slack/bolt": "^3.21.4",
         "@slack/logger": "^4.0.0",
-        "@slack/types": "^2.16.0",
+        "@slack/types": "^2.13.1",
         "autoprefixer": "^10.4.19",
         "clsx": "^2.1.1",
         "date-fns": "^3.6.0",
