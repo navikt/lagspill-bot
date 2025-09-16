@@ -4,7 +4,7 @@
     "license": "MIT",
     "packageManager": "yarn@4.9.4",
     "engines": {
-        "node": "22"
+        "node": "24"
     },
     "scripts": {
         "dev": "next dev | pino-pretty",
