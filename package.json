@@ -29,7 +29,7 @@
         "autoprefixer": "^10.4.19",
         "clsx": "^2.1.1",
         "date-fns": "^3.6.0",
-        "next": "14.2.30",
+        "next": "14.2.32",
         "next-logger": "^4.0.0",
         "nextleton": "^0.6.1",
         "pino": "^9.5.0",
