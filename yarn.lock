@@ -152,13 +152,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/next-logger@npm:^1.32.0":
-  version: 1.32.0
-  resolution: "@navikt/next-logger@npm:1.32.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fnext-logger%2F1.32.0%2Fa1044dc4fa417a599f4805ea449c3a1ffebc4910"
+"@navikt/next-logger@npm:^1.35.0":
+  version: 1.35.0
+  resolution: "@navikt/next-logger@npm:1.35.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fnext-logger%2F1.35.0%2Fd8db3f9b5719486d8b7a61e29f4c18dd1f2a5033"
   peerDependencies:
-    next: 12 || 13 || 14
+    next: 14 || 15
     pino: 8 || 9
-  checksum: 10/5f050a54f5ccb8210e85682f795b8fc86efe589b8243c9431548895b3bb1591821cd41f9432a9ffd50ba3559cdb18d0efed113d0f08d72a16c5655f2d9cc0297
+  checksum: 10/c376f9af08c06eb60984e203eb60a57ecfd0308a81b56a3bafe513fb6943a121e0442907b4a10a2186fc3427818db0d050979d58f3dfdc7c18e8069144c14c74
   languageName: node
   linkType: hard
 
@@ -3945,7 +3945,7 @@ __metadata:
   resolution: "lagspill@workspace:."
   dependencies:
     "@navikt/eslint-config-teamsykmelding": "npm:^6.2.0"
-    "@navikt/next-logger": "npm:^1.32.0"
+    "@navikt/next-logger": "npm:^1.35.0"
     "@prisma/client": "npm:5.22.0"
     "@slack/bolt": "npm:^3.21.4"
     "@slack/logger": "npm:^4.0.0"
