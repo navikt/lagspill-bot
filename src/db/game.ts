@@ -1,5 +1,7 @@
+import {GameTeam, Person } from ".prisma/client";
+import { subMonths } from 'date-fns'
+
 import { prisma, Game } from './prisma'
-import {GameTeam} from ".prisma/client";
 
 export async function createNewGame(gameCategoryId: number): Promise<Game> {
     return prisma().game.create({
@@ -98,5 +100,23 @@ export async function allGamesForPersonInGameCategory(personId: number, gameCate
         include: {
             teams: { }
         }
+    })
+}
+
+export interface GameWithTeamsAndMembers extends Game{
+   teams: TeamsWithMembers[];
+}
+interface TeamsWithMembers extends GameTeam {
+    members: Person[];
+}
+export async function getAllFinishedGamesForGameCategoryLastTwoMonths(gameCategoryId: number): Promise<Array<GameWithTeamsAndMembers>> {
+    const twoMonthsAgo = subMonths(new Date(), 2);
+    return await prisma().game.findMany({
+        where: { gameCategoryId, status: 'CLOSED', date: { gte: twoMonthsAgo }  },
+        include: {
+            teams: {
+                include: { members: true }
+            },
+        },
     })
 }
