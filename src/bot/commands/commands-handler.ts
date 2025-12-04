@@ -2,7 +2,6 @@ import {  GameCategory} from '.prisma/client'
 
 import { App } from '../app'
 import {
-    GameWithTeamsAndMembers,
     getActiveGame,
     getAllFinishedGamesForGameCategoryLastTwoMonths,
     getGameCategories,
@@ -19,7 +18,7 @@ import {
     startGameActionElement,
 } from '../../bot/messages/message-actions'
 import { ActionsBlockElement, Block } from '@slack/types'
-import { mapGamesToPersonalStatsMap, PersonGameStats, topplisteBlocks } from 'src/bot/messages/toppliste'
+import { mapGamesToPersonalStatsMap, PersonGameStats, topplisteBlocks } from '../../bot/messages/toppliste'
 
 export function configureCommandsHandler(app: App): void {
     // /helsesjekk create-game
