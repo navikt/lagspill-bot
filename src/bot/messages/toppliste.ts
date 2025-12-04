@@ -1,7 +1,7 @@
 import { Block, KnownBlock } from '@slack/types'
-import { GameWithTeamsAndMembers } from 'src/db'
-import { botLogger } from 'src/bot/bot-logger'
-import { plasseringEmoji } from 'src/utils/blocks'
+import { GameWithTeamsAndMembers } from '../../db'
+import { botLogger } from '../../bot/bot-logger'
+import { plasseringEmoji } from '../../utils/blocks'
 
 export function topplisteBlocks(liste: PersonGameStats[] ): (KnownBlock | Block)[] {
     return liste.map((entry, i) => [
