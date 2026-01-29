@@ -4,7 +4,7 @@
     "license": "MIT",
     "packageManager": "yarn@4.9.4",
     "engines": {
-        "node": "22"
+        "node": "24"
     },
     "scripts": {
         "dev": "next dev | pino-pretty",
@@ -29,7 +29,7 @@
         "autoprefixer": "^10.4.21",
         "clsx": "^2.1.1",
         "date-fns": "^4.1.0",
-        "next": "15.5.9",
+        "next": "15.5.11",
         "next-logger": "^5.0.1",
         "nextleton": "^0.6.1",
         "pino": "^9.9.5",
