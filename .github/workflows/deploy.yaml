@@ -29,10 +29,10 @@ jobs:
     outputs:
       image: ${{ steps.docker-build-push.outputs.image }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           registry-url: https://npm.pkg.github.com
           cache: yarn
       - name: Enable Corepack
@@ -62,7 +62,7 @@ jobs:
     environment:
       name: development
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: nais/deploy/actions/deploy@v2
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
