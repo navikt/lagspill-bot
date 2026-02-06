@@ -1,8 +1,11 @@
 import { prisma, GameTeam } from './prisma'
-import {Game} from ".prisma/client";
+import { Person } from '.prisma/client'
 
-export async function getGameTeamWithTeamMembers(gameTeamId: number): Promise<GameTeam> {
-    return await prisma().gameTeam.findUnique({
+export interface GameTeamWithMemberNames extends GameTeam {
+    members: Pick<Person, 'displayName'>[];
+}
+export async function getGameTeamWithTeamMembers(gameTeamId: number): Promise<GameTeamWithMemberNames | null> {
+    return prisma().gameTeam.findUnique({
         where: {
             id: gameTeamId
         },
@@ -14,7 +17,7 @@ export async function getGameTeamWithTeamMembers(gameTeamId: number): Promise<Ga
     })
 }
 export async function newGameTeam(gameId: number, memberIds: {id: number}[]): Promise<GameTeam> {
-    return await prisma().gameTeam.create({
+    return prisma().gameTeam.create({
         data: {
             game: {
                 connect: { id: gameId },
@@ -31,7 +34,7 @@ export async function newGameTeam(gameId: number, memberIds: {id: number}[]): Pr
     })
 }
 export async function updateScoreAndPlacement(gameTeamId: number, score: number, placement: number): Promise<GameTeam> {
-    return await prisma().gameTeam.update({
+    return prisma().gameTeam.update({
         where: { id: gameTeamId },
         data: {
             score,
@@ -43,9 +46,4 @@ export async function updateScoreAndPlacement(gameTeamId: number, score: number,
             }
         }
     })
-}
-export async function getGameTeamsSortedByScoreFromGame(game: Game): Promise<GameTeam[]> {
-    const teamsPromises = game.teams.map( (team: {id: number}) => getGameTeamWithTeamMembers(team.id));
-    const teams = await Promise.all(teamsPromises);
-    return teams.sort((a: GameTeam, b: GameTeam) => b.score - a.score)
 }
