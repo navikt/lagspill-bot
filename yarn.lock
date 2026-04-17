@@ -289,9 +289,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/eslint-config-teamsykmelding@npm:^8.1.1":
-  version: 8.1.1
-  resolution: "@navikt/eslint-config-teamsykmelding@npm:8.1.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Feslint-config-teamsykmelding%2F8.1.1%2F5075599ff4aec1280b1d59b688c7fedca3055976"
+"@navikt/eslint-config-teamsykmelding@npm:^8.1.3":
+  version: 8.1.3
+  resolution: "@navikt/eslint-config-teamsykmelding@npm:8.1.3::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Feslint-config-teamsykmelding%2F8.1.3%2Fe1198866c75d519e8ea4dbabb66946c7ddfb3c37"
   dependencies:
     "@typescript-eslint/eslint-plugin": "npm:^8.40.0"
     "@typescript-eslint/parser": "npm:^8.40.0"
@@ -305,7 +305,7 @@ __metadata:
     eslint: ">=8"
     prettier: ">=2"
     typescript: ">=4"
-  checksum: 10/79bbc94c8fa943cfa892a6a8346699ce8006f39869e5e322fe1e306607bea3c8b23edce1e885eb06917b2c90836a103bfb7936811a3ce09c483facaec8af47c2
+  checksum: 10/9c93f1c5a48cb202237a3eb294cf5fbe547c4157b9e0779a02da17bfbeafdb4589b336324af4986da0a73b0818b97fd751aa09c826b60399a24d93c792f10307
   languageName: node
   linkType: hard
 
@@ -3791,7 +3791,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "lagspill@workspace:."
   dependencies:
-    "@navikt/eslint-config-teamsykmelding": "npm:^8.1.1"
+    "@navikt/eslint-config-teamsykmelding": "npm:^8.1.3"
     "@navikt/next-logger": "npm:^4.1.5"
     "@prisma/client": "npm:6.16.1"
     "@slack/bolt": "npm:^4.4.0"
