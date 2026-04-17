@@ -441,6 +441,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pinojs/redact@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "@pinojs/redact@npm:0.4.0"
+  checksum: 10/2210ffb6b38357853d47239fd0532cc9edb406325270a81c440a35cece22090127c30c2ead3eefa3e608f2244087485308e515c431f4f69b6bd2e16cbd32812b
+  languageName: node
+  linkType: hard
+
 "@pkgr/core@npm:^0.2.9":
   version: 0.2.9
   resolution: "@pkgr/core@npm:0.2.9"
@@ -2657,13 +2664,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-redact@npm:^3.1.1":
-  version: 3.5.0
-  resolution: "fast-redact@npm:3.5.0"
-  checksum: 10/24b27e2023bd5a62f908d97a753b1adb8d89206b260f97727728e00b693197dea2fc2aa3711147a385d0ec6e713569fd533df37a4ef947e08cb65af3019c7ad5
-  languageName: node
-  linkType: hard
-
 "fast-safe-stringify@npm:^2.1.1":
   version: 2.1.1
   resolution: "fast-safe-stringify@npm:2.1.1"
@@ -3813,7 +3813,7 @@ __metadata:
     next: "npm:15.5.15"
     next-logger: "npm:^5.0.1"
     nextleton: "npm:^0.6.1"
-    pino: "npm:^9.9.5"
+    pino: "npm:^9.14.0"
     pino-pretty: "npm:^13.1.1"
     postcss: "npm:^8.5.6"
     prettier: "npm:^3.8.1"
@@ -4671,12 +4671,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino@npm:^9.9.5":
-  version: 9.9.5
-  resolution: "pino@npm:9.9.5"
+"pino@npm:^9.14.0":
+  version: 9.14.0
+  resolution: "pino@npm:9.14.0"
   dependencies:
+    "@pinojs/redact": "npm:^0.4.0"
     atomic-sleep: "npm:^1.0.0"
-    fast-redact: "npm:^3.1.1"
     on-exit-leak-free: "npm:^2.1.0"
     pino-abstract-transport: "npm:^2.0.0"
     pino-std-serializers: "npm:^7.0.0"
@@ -4688,7 +4688,7 @@ __metadata:
     thread-stream: "npm:^3.0.0"
   bin:
     pino: bin.js
-  checksum: 10/b6cb65bdc92328966561002284cd3902bbfe51b91d72d3b90d1fa85008caa5c4ef35848f2c080962e4688f50c753f06b0cf4ba5e0bd17f33954ae039725d49ed
+  checksum: 10/918e1fc764885150cb2b4fae8249a0ece53275020a7ca389f994fa2fbbb17b6353cd736c2db3a3794fbac0351f8e3d58411fabe127e875e24151a8fa4cd0b2b5
   languageName: node
   linkType: hard
 
