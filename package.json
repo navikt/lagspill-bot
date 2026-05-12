@@ -60,7 +60,8 @@
     },
     "resolutions": {
         "eslint-plugin-react-hooks": "5.0.0-canary-7118f5dd7-20230705",
-        "express": "5.2.1"
+        "express": "5.2.1",
+        "axios": "1.15.1"
     },
     "prettier": "@navikt/eslint-config-teamsykmelding/prettier",
     "eslintConfig": {
