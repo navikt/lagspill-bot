@@ -6,12 +6,10 @@ const nextConfig = {
         ignoreDuringBuilds: true,
         dirs: ['src'],
     },
-    experimental: {
-        serverComponentsExternalPackages: ['@navikt/next-logger', 'next-logger', '@slack/bolt'],
-    },
+    serverExternalPackages: ['@navikt/next-logger', 'next-logger', '@slack/bolt'],
     typescript: {
         ignoreBuildErrors: true,
-    }
+    },
 }
 
 export default nextConfig
