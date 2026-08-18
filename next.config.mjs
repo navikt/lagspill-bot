@@ -2,10 +2,6 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-    eslint: {
-        ignoreDuringBuilds: true,
-        dirs: ['src'],
-    },
     serverExternalPackages: ['@navikt/next-logger', 'next-logger', '@slack/bolt'],
     typescript: {
         ignoreBuildErrors: true,
