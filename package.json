@@ -27,7 +27,7 @@
         "@slack/logger": "^4.0.1",
         "@slack/types": "^2.22.0",
         "autoprefixer": "^10.5.4",
-        "date-fns": "^4.1.0",
+        "date-fns": "^4.4.0",
         "next": "15.5.23",
         "next-logger": "^5.0.1",
         "nextleton": "^0.6.1",
