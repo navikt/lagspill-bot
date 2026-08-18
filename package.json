@@ -21,7 +21,7 @@
         "prepare": "husky"
     },
     "dependencies": {
-        "@navikt/next-logger": "^4.1.5",
+        "@navikt/next-logger": "^4.5.1",
         "@prisma/client": "6.16.1",
         "@slack/bolt": "^4.7.3",
         "@slack/logger": "^4.0.1",
