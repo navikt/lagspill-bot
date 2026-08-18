@@ -612,6 +612,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@slack/types@npm:^2.22.0":
+  version: 2.22.0
+  resolution: "@slack/types@npm:2.22.0"
+  checksum: 10/22bea34f271e77236309c8cb0f9691898a2b99615d0c8018ea23baf06a20382ec9ee5e0131fbed4d6e38d49c5033bd5a55c8bafd61e26f5de8dfb15b6343f872
+  languageName: node
+  linkType: hard
+
 "@slack/web-api@npm:^7.15.0, @slack/web-api@npm:^7.16.0":
   version: 7.17.0
   resolution: "@slack/web-api@npm:7.17.0"
@@ -3820,7 +3827,7 @@ __metadata:
     "@prisma/client": "npm:6.16.1"
     "@slack/bolt": "npm:^4.7.3"
     "@slack/logger": "npm:^4.0.1"
-    "@slack/types": "npm:^2.21.1"
+    "@slack/types": "npm:^2.22.0"
     "@types/react": "npm:19.1.13"
     "@types/uuid": "npm:^10.0.0"
     "@typescript-eslint/eslint-plugin": "npm:^8.44.0"
