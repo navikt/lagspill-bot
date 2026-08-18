@@ -1,0 +1,27 @@
+name: Build pull request
+on: pull_request
+jobs:
+  build-dev:
+    name: 'Bygg for dev'
+    runs-on: ubuntu-latest
+    permissions:
+      packages: 'write'
+      contents: 'read'
+      id-token: 'write'
+    env:
+      NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+      NODE_ENV: production
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          registry-url: https://npm.pkg.github.com
+          cache: yarn
+      - name: Enable Corepack
+        run: corepack enable
+      - name: install dependencies Yarn
+        run: yarn install --immutable
+      - run: yarn build
+        env:
+          NEXT_PUBLIC_ENVIRONMENT: dev
