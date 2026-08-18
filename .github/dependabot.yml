@@ -8,17 +8,89 @@ updates:
   - package-ecosystem: 'docker'
     directory: "/"
     schedule:
-      interval: weekly
+      interval: "cron"
+      cronjob: "0 6 1-7,15-21 * 1" # første og tredje mandag i måneden kl 06:00
+      timezone: "Europe/Oslo"
+    cooldown:
+      default-days: 7
+    ignore:
+      - dependency-name: 'cgr-nav/pull-through/nav.no/node'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
-      interval: monthly
+      interval: "cron"
+      cronjob: "0 6 1-7,15-21 * 1" # første og tredje mandag i måneden kl 06:00
+      timezone: "Europe/Oslo"
+    cooldown:
+      default-days: 7
   - package-ecosystem: npm
     directory: "/"
     schedule:
-      interval: daily
+      interval: "cron"
+      cronjob: "0 6 1-7,15-21 * 1" # første og tredje mandag i måneden kl 06:00
+      timezone: "Europe/Oslo"
+    cooldown:
+      default-days: 7
+      exclude:
+        - '@navikt/aap-behandlingsflyt-typescript-types'
+        - '@navikt/aap-postmottak-backend-typescript-types'
+        - '@navikt/aap-oppgave-typescript-types'
+        - '@navikt/aap-statistikk-typescript-types'
+        - '@navikt/aksel*'
+        - '@navikt/ds*'
     open-pull-requests-limit: 10
     registries: '*'
     ignore:
       - dependency-name: '*'
         update-types: [ 'version-update:semver-major' ]
+      - dependency-name: '@navikt/eslint-config-aap'
+      - dependency-name: 'prettier'
+      - dependency-name: '@typescript-eslint*'
+      - dependency-name: 'eslint-*'
+      - dependency-name: 'eslint'
+        versions: [ '9.x' ]
+    groups:
+      aap-backend-typescript-types:
+        patterns:
+          - '@navikt/aap-behandlingsflyt-typescript-types'
+          - '@navikt/aap-postmottak-backend-typescript-types'
+          - '@navikt/aap-oppgave-typescript-types'
+          - '@navikt/aap-statistikk-typescript-types'
+      aksel-dependencies:
+        patterns:
+          - '@navikt/aksel*'
+          - '@navikt/ds*'
+      react-dependencies:
+        patterns:
+          - 'react'
+          - 'react-dom'
+          - '@types/react'
+          - '@types/react-dom'
+      team-deps:
+        patterns:
+          - '@navikt/aap-felles*'
+      testing:
+        patterns:
+          - 'vitest'
+          - 'vitest-fetch-mock'
+          - '@vitest/coverage-v8'
+          - '@vitejs/plugin-react'
+          - '@testing-library/react'
+          - '@testing-library/user-event'
+          - '@testing-library/dom'
+          - '@testing-library/jest-dom'
+          - 'jsdom'
+      otel:
+        patterns:
+          - '@opentelemetry/api'
+          - '@opentelemetry/api-logs'
+          - '@opentelemetry/instrumentation'
+          - '@opentelemetry/resources'
+          - '@opentelemetry/sdk-logs'
+          - '@opentelemetry/sdk-metrics'
+          - '@opentelemetry/sdk-trace-base'
+          - '@vercel/otel'
+      astro:
+        patterns:
+          - 'astro'
+          - '@astrojs/*'
