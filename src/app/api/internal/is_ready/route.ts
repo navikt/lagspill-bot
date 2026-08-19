@@ -3,11 +3,8 @@ export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
 import { logger } from '@navikt/next-logger'
 
-import { startBot } from '../../../../bot'
 import { getServerEnv } from '../../../../utils/env'
-
-let botReady = false
-let botStarted = false
+import { bot, botStatus } from './bot'
 
 export function GET(): NextResponse {
     try {
@@ -18,16 +15,17 @@ export function GET(): NextResponse {
         return NextResponse.json({ message: 'Some envs are not set correctly' }, { status: 500 })
     }
 
-    if (!botReady) {
-        if (!botStarted) {
-            botStarted = true
-            startBot()
+    if (!botStatus.ready) {
+        if (!botStatus.started) {
+            botStatus.started = true;
+            bot()
                 .then(() => {
-                    botReady = true
+                    logger.info('Bot started');
+                    botStatus.ready = true;
                 })
                 .catch((error) => {
-                    logger.error(error)
-                    botStarted = false
+                    logger.error(error);
+                    botStatus.ready = false;
                 })
         }
 
