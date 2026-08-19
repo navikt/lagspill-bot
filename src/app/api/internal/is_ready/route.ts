@@ -1,10 +1,10 @@
+export const dynamic = 'force-dynamic'
+
 import { NextResponse } from 'next/server'
 import { logger } from '@navikt/next-logger'
 
 import { startBot } from '../../../../bot'
 import { getServerEnv } from '../../../../utils/env'
-
-export const dynamic = 'force-dynamic'
 
 let botReady = false
 let botStarted = false
