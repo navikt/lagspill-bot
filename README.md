@@ -42,9 +42,9 @@ Du skal nå kunne kjøre `yarn` for å installere avhengighetene uten 401-feil.
     ```bash
     yarn dev:db
     ```
-5. Kjør prisma-migreringene mot databasen:
+5. Kjør Drizzle-migreringene mot databasen:
     ```bash
-    yarn prisma:migrate-dev
+    yarn drizzle:migrate
     ```
 6. Endelig kan vi starte development-serveren:
     ```bash

@@ -1,0 +1,1 @@
+ALTER TABLE "WaitingPerson" ADD CONSTRAINT "WaitingPerson_userId_gameId_pk" PRIMARY KEY("userId","gameId");

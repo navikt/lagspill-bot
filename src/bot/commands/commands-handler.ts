@@ -1,5 +1,3 @@
-import {  GameCategory} from '.prisma/client'
-
 import { App } from '../app'
 import {
     getActiveGame,
@@ -19,6 +17,7 @@ import {
 } from '../../bot/messages/message-actions'
 import { ActionsBlockElement, Block } from '@slack/types'
 import { mapGamesToPersonalStatsMap, PersonGameStats, topplisteBlocks } from '../../bot/messages/toppliste'
+import { type GameCategory } from '../../db/drizzle'
 
 export function configureCommandsHandler(app: App): void {
     // /helsesjekk create-game

@@ -1,9 +1,10 @@
+import { eq } from 'drizzle-orm'
 
-import { prisma, WaitingPerson} from './prisma'
+import { db, waitingPeople, type WaitingPerson } from './drizzle'
 
 export async function addPersonToWaitingRoom(userId: number, gameId: number, isAtOffice: boolean): Promise<void> {
-    await prisma().waitingPerson.create({data: {userId, gameId, isAtOffice}})
+    await db().insert(waitingPeople).values({ userId, gameId, isAtOffice })
 }
 export async function getPeopleInWaitingRoom( gameId: number): Promise<WaitingPerson[]> {
-    return await prisma().waitingPerson.findMany({where: {gameId}});
+    return db().select().from(waitingPeople).where(eq(waitingPeople.gameId, gameId))
 }
