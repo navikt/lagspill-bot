@@ -1,5 +1,9 @@
 -- Baseline migration — tables already exist in production, all statements are idempotent
-CREATE TYPE IF NOT EXISTS "public"."Status" AS ENUM('OPEN', 'ACTIVE', 'CLOSED');
+DO $$ BEGIN
+ CREATE TYPE "public"."Status" AS ENUM('OPEN', 'ACTIVE', 'CLOSED');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "Channel" (
 	"id" serial PRIMARY KEY NOT NULL,
@@ -45,8 +49,7 @@ CREATE TABLE IF NOT EXISTS "Person" (
 CREATE TABLE IF NOT EXISTS "WaitingPerson" (
 	"userId" integer NOT NULL,
 	"gameId" integer NOT NULL,
-	"isAtOffice" boolean NOT NULL,
-	CONSTRAINT "WaitingPerson_pkey" PRIMARY KEY("userId","gameId")
+	"isAtOffice" boolean NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN

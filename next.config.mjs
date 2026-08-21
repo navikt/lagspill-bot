@@ -7,7 +7,7 @@ const nextConfig = {
         ignoreDuringBuilds: true,
         dirs: ['src'],
     },
-    serverExternalPackages: ['@navikt/next-logger', 'next-logger', '@slack/bolt'],
+    serverExternalPackages: ['@navikt/next-logger', 'next-logger', '@slack/bolt', 'pg'],
     typescript: {
         ignoreBuildErrors: true,
     },
