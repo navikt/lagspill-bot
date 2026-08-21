@@ -1,5 +1,6 @@
-import {Game, GameCategory} from ".prisma/client";
 import { ActionsBlockElement } from '@slack/types'
+
+import { type Game, type GameCategory } from '../../db/drizzle'
 
 export const newGameActionId = 'new-game'
 export const startGameActionId = 'start-game';

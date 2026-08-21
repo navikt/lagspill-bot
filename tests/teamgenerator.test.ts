@@ -1,34 +1,34 @@
 import { describe, expect, test } from 'bun:test'
 import {generateRandomTeams, removeFromArray} from '../src/utils/teamgenerator.ts';
-import {WaitingRoom} from "@prisma/client";
+import { type WaitingPerson } from '../src/db/drizzle'
 
-const waiting: WaitingRoom[] = [
-    {userId: 123, gameCategoryId: 123, isAtOffice: false },
-    {userId: 234, gameCategoryId: 234, isAtOffice: false },
-    {userId: 345, gameCategoryId: 345, isAtOffice: false },
-    {userId: 456, gameCategoryId: 456, isAtOffice: false },
-    {userId: 567, gameCategoryId: 567, isAtOffice: false },
-    {userId: 678, gameCategoryId: 678, isAtOffice: false },
-    {userId: 789, gameCategoryId: 789, isAtOffice: false },
-    {userId: 890, gameCategoryId: 890, isAtOffice: false },
-    {userId: 901, gameCategoryId: 901, isAtOffice: false },
-    {userId: 444, gameCategoryId: 444, isAtOffice: false },
-    {userId: 111, gameCategoryId: 111, isAtOffice: false },
-    {userId: 222, gameCategoryId: 222, isAtOffice: false },
-    {userId: 333, gameCategoryId: 333, isAtOffice: false },
+const waiting: WaitingPerson[] = [
+    {userId: 123, gameId: 1, isAtOffice: false },
+    {userId: 234, gameId: 1, isAtOffice: false },
+    {userId: 345, gameId: 1, isAtOffice: false },
+    {userId: 456, gameId: 1, isAtOffice: false },
+    {userId: 567, gameId: 1, isAtOffice: false },
+    {userId: 678, gameId: 1, isAtOffice: false },
+    {userId: 789, gameId: 1, isAtOffice: false },
+    {userId: 890, gameId: 1, isAtOffice: false },
+    {userId: 901, gameId: 1, isAtOffice: false },
+    {userId: 444, gameId: 1, isAtOffice: false },
+    {userId: 111, gameId: 1, isAtOffice: false },
+    {userId: 222, gameId: 1, isAtOffice: false },
+    {userId: 333, gameId: 1, isAtOffice: false },
 ];
 describe('randomteamgenerator', () => {
     test('removefromarray', () => {
-        const start: WaitingRoom[] = [
-            {userId: 123, gameCategoryId: 123, isAtOffice: false },
-            {userId: 234, gameCategoryId: 234, isAtOffice: false },
-            {userId: 345, gameCategoryId: 345, isAtOffice: false },
-            {userId: 456, gameCategoryId: 456, isAtOffice: false },
+        const start: WaitingPerson[] = [
+            {userId: 123, gameId: 1, isAtOffice: false },
+            {userId: 234, gameId: 1, isAtOffice: false },
+            {userId: 345, gameId: 1, isAtOffice: false },
+            {userId: 456, gameId: 1, isAtOffice: false },
         ];
-        const res: WaitingRoom[] = [
-            {userId: 123, gameCategoryId: 123, isAtOffice: false },
-            {userId: 234, gameCategoryId: 234, isAtOffice: false },
-            {userId: 456, gameCategoryId: 456, isAtOffice: false },
+        const res: WaitingPerson[] = [
+            {userId: 123, gameId: 1, isAtOffice: false },
+            {userId: 234, gameId: 1, isAtOffice: false },
+            {userId: 456, gameId: 1, isAtOffice: false },
         ];
         expect(removeFromArray(2, start)).toEqual(res);
     })

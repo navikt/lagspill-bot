@@ -1,18 +1,24 @@
-import {prisma, Channel} from "./prisma";
+import { eq } from 'drizzle-orm'
+
+import { db, channels, type Channel } from './drizzle'
 
 async function createNewChannel(slackChannelId: string, channelName: string): Promise<Channel> {
-    return await prisma().channel.create({
-        data: {slackChannelId, name: channelName},
-    })
+    const [channel] = await db().insert(channels).values({ slackChannelId, name: channelName }).returning()
+    if (!channel) {
+        throw new Error('Failed to create channel')
+    }
+    return channel
 }
 export async function getChannel(slackChannelId: string): Promise<Channel | null> {
-    return await prisma().channel.findFirst({where: {slackChannelId}});
-
+    const [channel] = await db()
+        .select()
+        .from(channels)
+        .where(eq(channels.slackChannelId, slackChannelId))
+        .limit(1)
+    return channel ?? null
 }
 export async function getOrCreateChannel(slackChannelId: string, channelName: string): Promise<Channel> {
-    const channel  = await prisma().channel.findFirst({where: {slackChannelId}})
-    console.log('found channel', channel)
-    if(channel) return channel;
+    const channel = await getChannel(slackChannelId)
+    if (channel) return channel
     return createNewChannel(slackChannelId, channelName);
-
 }

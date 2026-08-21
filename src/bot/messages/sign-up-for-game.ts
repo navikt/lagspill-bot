@@ -1,6 +1,7 @@
 import {Block, KnownBlock} from "@slack/types";
-import {Game} from ".prisma/client";
 import {startGameActionId} from "../../bot/messages/message-actions";
+
+import { type Game } from '../../db/drizzle'
 
 export const signUpForGameActionId = 'sign-up-for-game';
 export function signUpForGame(game: Game): (KnownBlock | Block)[] {

@@ -6,6 +6,8 @@ import {configureFinishGameEventsHandler} from "./events/finish-game-events";
 import {configureStartGameEventsHandler} from "./events/start-game-events";
 import {configureDeleteGameEventsHandler} from "./events/delete-game-events";
 import {configureGameCategoryEventsHandler} from "./events/game-category-events";
+import { db } from '../db/drizzle/client'
+import { sql } from 'drizzle-orm'
 
 const handlers = [
     configureCommandsHandler,
@@ -18,6 +20,13 @@ const handlers = [
 
 export async function startBot(): Promise<void> {
     botLogger.info('Setting up bolt app...')
+
+    try {
+        await db().execute(sql`select 1`)
+        botLogger.info('Database connection OK')
+    } catch (err) {
+        botLogger.error({ err }, 'Database connection FAILED')
+    }
 
     const app = createApp()
     handlers.forEach((handler) => handler(app))

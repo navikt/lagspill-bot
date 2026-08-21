@@ -2,13 +2,13 @@ import {ModalView} from "@slack/bolt";
 import {gameAndChannelInMetadata} from "../../utils/metadata";
 import {Block, KnownBlock} from "@slack/types";
 import {getTeamMembersString} from "../../utils/gameteam";
-import {GameTeam} from ".prisma/client";
+import { type GameTeamWithMembers } from '../../db/gameteam'
 export const submitFinishGameCallbackId = 'submit-finish-game';
 
 export function finishGameModal(
     slackChannelId: string,
     gameId: number,
-    gameTeams: GameTeam[],
+    gameTeams: GameTeamWithMembers[],
 ): ModalView {
     const gameTeamInputs: (Block | KnownBlock)[] = gameTeams.map(team => {
         const membersString = getTeamMembersString(team);

@@ -1,15 +1,15 @@
-import { WaitingRoom } from '.prisma/client'
+import { type WaitingPerson } from '../db/drizzle'
 
-export function generateRandomTeams(numberOfTeams: number, participants: WaitingRoom[]): Array<Array<WaitingRoom>> {
+export function generateRandomTeams(numberOfTeams: number, participants: WaitingPerson[]): Array<Array<WaitingPerson>> {
     if (numberOfTeams === 0 || participants.length === 0) {
         return []
     }
-    let teams: Array<Array<WaitingRoom>> = [];
+    let teams: Array<Array<WaitingPerson>> = [];
     let participantsList = participants.map((e) => e)
     const minNumberOfTeamMembers = Math.floor(participants.length / numberOfTeams)
     let remainder = participants.length % minNumberOfTeamMembers
     for (let i = 1; i <= numberOfTeams; i++) {
-        let subTeam: WaitingRoom[] = [];
+        let subTeam: WaitingPerson[] = [];
         let teamSize = minNumberOfTeamMembers;
         // add extra member from remainders
         if (remainder > 0) {
@@ -28,6 +28,6 @@ export function generateRandomTeams(numberOfTeams: number, participants: Waiting
 export function randomIndex(listLength: number): number {
     return Math.floor(Math.random() * listLength)
 }
-export function removeFromArray(index: number, array: WaitingRoom[]): Array<WaitingRoom> {
+export function removeFromArray(index: number, array: WaitingPerson[]): Array<WaitingPerson> {
     return array.filter((el, i) => i !== index)
 }

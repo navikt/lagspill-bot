@@ -1,6 +1,7 @@
 import { ModalView } from '@slack/bolt'
-import { WaitingPerson } from '.prisma/client'
 import {botLogger} from "../../bot/bot-logger";
+
+import { type WaitingPerson } from '../../db/drizzle'
 
 export const submitStartGameCallbackId = 'submit-start-game'
 export function startGameModal(slackChannelId: string, gameId: number, waitingPeople: WaitingPerson[]): ModalView {
