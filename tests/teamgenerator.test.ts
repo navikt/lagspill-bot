@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'bun:test'
+import { describe, expect, test } from 'vitest'
 import {generateRandomTeams, removeFromArray} from '../src/utils/teamgenerator.ts';
 import { type WaitingPerson } from '../src/db/drizzle'
 

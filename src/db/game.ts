@@ -1,4 +1,4 @@
-import { and, eq, gte } from 'drizzle-orm'
+import { and, eq, gte, lt } from 'drizzle-orm'
 import { subMonths } from 'date-fns'
 
 import { db, gameCategories, gameTeamMembers, gameTeams, games, persons, type Game } from './drizzle'
@@ -165,6 +165,48 @@ export async function getAllFinishedGamesForGameCategoryLastTwoMonths(gameCatego
            .select()
            .from(gameTeams)
            .where(eq(gameTeams.gameId, game.id))
+       const teamsWithMembers: GameTeamWithMembers[] = []
+       for (const team of teams) {
+           const members = await db()
+               .select({
+                   id: persons.id,
+                   slackUserId: persons.slackUserId,
+                   name: persons.name,
+                   displayName: persons.displayName,
+                   anonymous: persons.anonymous,
+               })
+               .from(gameTeamMembers)
+               .innerJoin(persons, eq(persons.id, gameTeamMembers.personId))
+               .where(eq(gameTeamMembers.gameTeamId, team.id))
+           teamsWithMembers.push({ ...team, members })
+       }
+       result.push({ ...game, teams: teamsWithMembers })
+   }
+   return result
+}
+
+export async function getWinsForGameCategoryInYear(
+   gameCategoryId: number,
+   year: number,
+): Promise<Array<GameWithTeamsAndMembers>> {
+   const yearStart = new Date(year, 0, 1)
+   const yearEnd = new Date(year + 1, 0, 1)
+
+   const finishedGames = await db()
+       .select()
+       .from(games)
+       .where(
+           and(
+               eq(games.gameCategoryId, gameCategoryId),
+               eq(games.status, 'CLOSED'),
+               gte(games.date, yearStart),
+               lt(games.date, yearEnd),
+           ),
+       )
+
+   const result: GameWithTeamsAndMembers[] = []
+   for (const game of finishedGames) {
+       const teams = await db().select().from(gameTeams).where(eq(gameTeams.gameId, game.id))
        const teamsWithMembers: GameTeamWithMembers[] = []
        for (const team of teams) {
            const members = await db()
