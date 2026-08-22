@@ -1,6 +1,11 @@
 import { describe, expect, test } from 'vitest'
 
-import { computeCurrentMonthLeaders, computeMonthlyWinners, type WinnerGameInput } from '../src/utils/leaderboard.ts'
+import {
+    computeCurrentMonthLeaders,
+    computeMonthlyWinners,
+    detectMonthTransitionWinner,
+    type WinnerGameInput,
+} from '../src/utils/leaderboard.ts'
 
 // "now" fixed to 15. august 2026 -> ferdige måneder i 2026 er januar (0) t.o.m. juli (6),
 // inneværende måned er august (7)
@@ -202,5 +207,67 @@ describe('computeCurrentMonthLeaders', () => {
         const games = [augGame(1, 'Ola')]
 
         expect(computeCurrentMonthLeaders(games, 2025, NOW)).toEqual([])
+    })
+})
+
+describe('detectMonthTransitionWinner', () => {
+    test('null når forrige spill er i samme måned', () => {
+        const games = [
+            game(new Date(2026, 6, 3), [{ placement: 1, members: [winner(1, 'Ola')] }]),
+            game(new Date(2026, 6, 20), [{ placement: 1, members: [winner(2, 'Kari')] }]),
+        ]
+
+        expect(detectMonthTransitionWinner(games, new Date(2026, 6, 20), YEAR, NOW)).toBeNull()
+    })
+
+    test('vinner når forrige spill er i umiddelbart foregående måned', () => {
+        const games = [
+            game(new Date(2026, 6, 3), [{ placement: 1, members: [winner(1, 'Ola')] }]),
+            game(new Date(2026, 7, 5), [{ placement: 1, members: [winner(1, 'Ola')] }]),
+        ]
+
+        expect(detectMonthTransitionWinner(games, new Date(2026, 7, 5), YEAR, NOW)).toEqual({
+            monthIndex: 6,
+            wins: 1,
+            winners: ['Ola'],
+        })
+    })
+
+    test('null når det er en måned uten spill mellom', () => {
+        const games = [
+            game(new Date(2026, 1, 5), [{ placement: 1, members: [winner(1, 'Ola')] }]),
+            game(new Date(2026, 3, 10), [{ placement: 1, members: [winner(1, 'Ola')] }]),
+        ]
+
+        expect(detectMonthTransitionWinner(games, new Date(2026, 3, 10), YEAR, NOW)).toBeNull()
+    })
+
+    test('viser alle vinnere ved uavgjort forrige måned', () => {
+        const games = [
+            game(new Date(2026, 6, 3), [{ placement: 1, members: [winner(1, 'Ola')] }]),
+            game(new Date(2026, 6, 10), [{ placement: 1, members: [winner(2, 'Kari')] }]),
+            game(new Date(2026, 7, 5), [{ placement: 1, members: [winner(1, 'Ola')] }]),
+        ]
+
+        expect(detectMonthTransitionWinner(games, new Date(2026, 7, 5), YEAR, NOW)).toEqual({
+            monthIndex: 6,
+            wins: 1,
+            winners: ['Kari', 'Ola'],
+        })
+    })
+
+    test('null når det ikke finnes noe forrige spill', () => {
+        const games = [game(new Date(2026, 7, 5), [{ placement: 1, members: [winner(1, 'Ola')] }])]
+
+        expect(detectMonthTransitionWinner(games, new Date(2026, 7, 5), YEAR, NOW)).toBeNull()
+    })
+
+    test('null ved årsskifte (januar med forrige spill i desember i fjor)', () => {
+        const games = [
+            game(new Date(2025, 11, 5), [{ placement: 1, members: [winner(1, 'Ola')] }]),
+            game(new Date(2026, 0, 10), [{ placement: 1, members: [winner(1, 'Ola')] }]),
+        ]
+
+        expect(detectMonthTransitionWinner(games, new Date(2026, 0, 10), YEAR, NOW)).toBeNull()
     })
 })

@@ -47,6 +47,7 @@ export function leaderboardBlocks(
     monthWinners: MonthWinners[],
     year: number,
     now: Date,
+    newMonthWinner?: MonthWinners | null,
 ): (KnownBlock | Block)[] {
     const currentMonthName = capitalize(MONTH_NAMES_NB[now.getMonth()])
 
@@ -60,7 +61,20 @@ export function leaderboardBlocks(
             ? `Ingen fullførte måneder med spill i ${year} enda.`
             : '```\n' + renderTable(monthWinners) + '\n```'
 
+    const banner: (KnownBlock | Block)[] = newMonthWinner
+        ? [
+              {
+                  type: 'section',
+                  text: {
+                      type: 'mrkdwn',
+                      text: `🚨 Vinneren i ${MONTH_NAMES_NB[newMonthWinner.monthIndex]} ble ${newMonthWinner.winners.join(' og ')} med ${newMonthWinner.wins} ${pluralizeSeiere(newMonthWinner.wins)}`,
+                  },
+              },
+          ]
+        : []
+
     return [
+        ...banner,
         {
             type: 'header',
             text: {

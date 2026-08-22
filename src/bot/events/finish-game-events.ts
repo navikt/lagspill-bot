@@ -83,14 +83,16 @@ export function configureFinishGameEventsHandler(app: App): void {
         })
 
         const finishedGame = await getGameById(gameId)
-        const gameCategory = finishedGame && (await getGameCategoryById(finishedGame.gameCategoryId))
-        if (gameCategory) {
-            const now = new Date()
-            await client.chat.postMessage({
-                channel: slackChannelId,
-                text: `Ledertavle – ${gameCategory.name} ${now.getFullYear()}`,
-                blocks: await buildLeaderboardBlocks(gameCategory, now),
-            })
+        if (finishedGame) {
+            const gameCategory = await getGameCategoryById(finishedGame.gameCategoryId)
+            if (gameCategory) {
+                const now = new Date()
+                await client.chat.postMessage({
+                    channel: slackChannelId,
+                    text: `Ledertavle – ${gameCategory.name} ${now.getFullYear()}`,
+                    blocks: await buildLeaderboardBlocks(gameCategory, now, finishedGame.date ?? undefined),
+                })
+            }
         }
     })
 }

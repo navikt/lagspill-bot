@@ -135,3 +135,30 @@ export function computeCurrentMonthLeaders(
 
     return leaders
 }
+
+export function detectMonthTransitionWinner(
+    games: WinnerGameInput[],
+    currentGameDate: Date,
+    year: number,
+    now: Date,
+): MonthWinners | null {
+    let previousDate: Date | null = null
+    for (const game of games) {
+        if (!game.date) continue
+        if (game.date.getTime() >= currentGameDate.getTime()) continue
+        if (!previousDate || game.date.getTime() > previousDate.getTime()) {
+            previousDate = game.date
+        }
+    }
+    if (!previousDate) return null
+
+    const currentMonth = currentGameDate.getMonth()
+    const currentYear = currentGameDate.getFullYear()
+    // Kun umiddelbart foregående måned, samme år (januar utelukkes automatisk via currentMonth - 1).
+    if (previousDate.getFullYear() !== currentYear) return null
+    if (previousDate.getMonth() !== currentMonth - 1) return null
+
+    const monthIndex = previousDate.getMonth()
+    const winner = computeMonthlyWinners(games, year, now).find((m) => m.monthIndex === monthIndex)
+    return winner ?? null
+}
