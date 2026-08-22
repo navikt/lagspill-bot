@@ -13,6 +13,14 @@ export async function getFirstGameCategory(channelId: number): Promise<GameCateg
         .limit(1)
     return category ?? null
 }
+export async function getGameCategoryById(gameCategoryId: number): Promise<GameCategory | null> {
+    const [category] = await db()
+        .select()
+        .from(gameCategories)
+        .where(eq(gameCategories.id, gameCategoryId))
+        .limit(1)
+    return category ?? null
+}
 export async function createGameCategory(channelId: number, name: string): Promise<GameCategory> {
     const [category] = await db()
         .insert(gameCategories)

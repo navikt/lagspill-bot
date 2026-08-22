@@ -6,7 +6,6 @@ import {
     getOpenGame,
     getOrCreateChannel,
     getPerson,
-    getWinsForGameCategoryInYear,
 } from '../../db'
 import { botLogger } from '../bot-logger'
 import {
@@ -18,8 +17,7 @@ import {
 } from '../../bot/messages/message-actions'
 import { ActionsBlockElement, Block } from '@slack/types'
 import { mapGamesToPersonalStatsMap, PersonGameStats, topplisteBlocks } from '../../bot/messages/toppliste'
-import { leaderboardBlocks } from '../../bot/messages/leaderboard'
-import { computeCurrentMonthLeaders, computeMonthlyWinners } from '../../utils/leaderboard'
+import { buildLeaderboardBlocks } from '../leaderboard-service'
 import { type GameCategory } from '../../db/drizzle'
 
 export function configureCommandsHandler(app: App): void {
@@ -83,19 +81,10 @@ export function configureCommandsHandler(app: App): void {
             const year = new Date().getFullYear()
             for (const gameCategory of gameCategories) {
                 const now = new Date()
-                const finishedGames = await getWinsForGameCategoryInYear(gameCategory.id, year)
-                const monthWinners = computeMonthlyWinners(finishedGames, year, now)
-                const currentMonthLeaders = computeCurrentMonthLeaders(finishedGames, year, now)
                 await client.chat.postMessage({
                     channel: command.channel_id,
                     text: `Ledertavle – ${gameCategory.name} ${year}`,
-                    blocks: leaderboardBlocks(
-                        gameCategory.name,
-                        currentMonthLeaders,
-                        monthWinners,
-                        year,
-                        now,
-                    ),
+                    blocks: await buildLeaderboardBlocks(gameCategory, now),
                 })
             }
             return

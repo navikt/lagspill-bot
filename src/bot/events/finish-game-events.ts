@@ -1,12 +1,13 @@
 import { App } from '../../bot/app'
 import {botLogger} from "../../bot/bot-logger";
 import {
-    finishGameWithId, getActiveGameById,
+    finishGameWithId, getActiveGameById, getGameById, getGameCategoryById,
     getGameTeamWithTeamMembers,
     getGameWithGameTeams,
     updateScoreAndPlacement
 } from "../../db";
 import {postGameResultsBlocks} from "../../bot/messages/post-game-teams";
+import {buildLeaderboardBlocks} from "../leaderboard-service";
 import {finishGameActionId} from "../../bot/messages/message-actions";
 import {finishGameModal, submitFinishGameCallbackId} from "../../bot/modals/finish-game-modal";
 import {getIdFromMessageAction} from "../../utils/app-actions";
@@ -80,5 +81,16 @@ export function configureFinishGameEventsHandler(app: App): void {
             channel: slackChannelId,
             blocks: postGameResultsBlocks(updatedGameTeams),
         })
+
+        const finishedGame = await getGameById(gameId)
+        const gameCategory = finishedGame && (await getGameCategoryById(finishedGame.gameCategoryId))
+        if (gameCategory) {
+            const now = new Date()
+            await client.chat.postMessage({
+                channel: slackChannelId,
+                text: `Ledertavle – ${gameCategory.name} ${now.getFullYear()}`,
+                blocks: await buildLeaderboardBlocks(gameCategory, now),
+            })
+        }
     })
 }
