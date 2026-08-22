@@ -1,6 +1,7 @@
 import { Block, KnownBlock } from '@slack/types'
 
-import { MONTH_NAMES_NB, type MonthWinners } from '../../utils/leaderboard'
+import { MONTH_NAMES_NB, type LeaderEntry, type MonthWinners } from '../../utils/leaderboard'
+import { plasseringEmoji } from '../../utils/blocks'
 
 function capitalize(value: string): string {
     return value.charAt(0).toUpperCase() + value.slice(1)
@@ -8,6 +9,16 @@ function capitalize(value: string): string {
 
 function padEnd(value: string, width: number): string {
     return value + ' '.repeat(Math.max(0, width - value.length))
+}
+
+function pluralizeSeiere(wins: number): string {
+    return wins === 1 ? 'seier' : 'seiere'
+}
+
+function renderCurrentMonthLeaders(leaders: LeaderEntry[]): string {
+    return leaders
+        .map((leader) => `${plasseringEmoji(leader.rank - 1)} *${leader.displayName}* — ${leader.wins} ${pluralizeSeiere(leader.wins)}`)
+        .join('\n')
 }
 
 function renderTable(rows: MonthWinners[]): string {
@@ -32,38 +43,47 @@ function renderTable(rows: MonthWinners[]): string {
 
 export function leaderboardBlocks(
     gameCategoryName: string,
+    currentMonthLeaders: LeaderEntry[],
     monthWinners: MonthWinners[],
     year: number,
+    now: Date,
 ): (KnownBlock | Block)[] {
-    const header: KnownBlock = {
-        type: 'header',
-        text: {
-            type: 'plain_text',
-            text: `Årets vinnere – ${gameCategoryName} ${year}`,
-            emoji: true,
-        },
-    }
+    const currentMonthName = capitalize(MONTH_NAMES_NB[now.getMonth()])
 
-    if (monthWinners.length === 0) {
-        return [
-            header,
-            {
-                type: 'section',
-                text: {
-                    type: 'mrkdwn',
-                    text: `Ingen fullførte måneder med spill i ${year} enda.`,
-                },
-            },
-        ]
-    }
+    const currentMonthText =
+        currentMonthLeaders.length === 0
+            ? `Ingen seiere registrert i ${currentMonthName.toLowerCase()} enda.`
+            : renderCurrentMonthLeaders(currentMonthLeaders)
+
+    const yearText =
+        monthWinners.length === 0
+            ? `Ingen fullførte måneder med spill i ${year} enda.`
+            : '```\n' + renderTable(monthWinners) + '\n```'
 
     return [
-        header,
+        {
+            type: 'header',
+            text: {
+                type: 'plain_text',
+                text: gameCategoryName,
+                emoji: true,
+            },
+        },
         {
             type: 'section',
             text: {
                 type: 'mrkdwn',
-                text: '```\n' + renderTable(monthWinners) + '\n```',
+                text: `*Månedens ledere – ${currentMonthName} ${year}*\n${currentMonthText}`,
+            },
+        },
+        {
+            type: 'divider',
+        },
+        {
+            type: 'section',
+            text: {
+                type: 'mrkdwn',
+                text: `*Årets vinnere ${year}*\n${yearText}`,
             },
         },
     ]

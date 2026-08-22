@@ -35,6 +35,12 @@ export interface MonthWinners {
     winners: string[]
 }
 
+export interface LeaderEntry {
+    rank: number
+    displayName: string
+    wins: number
+}
+
 function isMonthFinished(monthIndex: number, year: number, now: Date): boolean {
     if (year < now.getFullYear()) return true
     if (year > now.getFullYear()) return false
@@ -81,4 +87,51 @@ export function computeMonthlyWinners(games: WinnerGameInput[], year: number, no
     }
 
     return result.sort((a, b) => a.monthIndex - b.monthIndex)
+}
+
+export function computeCurrentMonthLeaders(
+    games: WinnerGameInput[],
+    year: number,
+    now: Date,
+    limit = 3,
+): LeaderEntry[] {
+    if (year !== now.getFullYear()) return []
+    const currentMonth = now.getMonth()
+
+    const winsByPerson = new Map<number, { displayName: string; wins: number }>()
+
+    for (const game of games) {
+        if (!game.date) continue
+        if (game.date.getFullYear() !== year) continue
+        if (game.date.getMonth() !== currentMonth) continue
+
+        for (const team of game.teams) {
+            if (team.placement !== 1) continue
+
+            for (const member of team.members) {
+                if (member.anonymous) continue
+
+                const existing = winsByPerson.get(member.id)
+                winsByPerson.set(member.id, {
+                    displayName: existing?.displayName ?? member.displayName ?? 'Ukjent',
+                    wins: (existing?.wins ?? 0) + 1,
+                })
+            }
+        }
+    }
+
+    const sorted = Array.from(winsByPerson.values()).sort(
+        (a, b) => b.wins - a.wins || a.displayName.localeCompare(b.displayName, 'nb'),
+    )
+
+    const leaders: LeaderEntry[] = []
+    for (let i = 0; i < sorted.length; i++) {
+        const entry = sorted[i]
+        // Competition ranking: same wins share rank, next distinct rank skips ties.
+        const rank = i > 0 && sorted[i - 1].wins === entry.wins ? leaders[i - 1].rank : i + 1
+        if (rank > limit) break
+        leaders.push({ rank, displayName: entry.displayName, wins: entry.wins })
+    }
+
+    return leaders
 }
