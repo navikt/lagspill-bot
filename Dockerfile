@@ -2,6 +2,8 @@ FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24-slim AS ru
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS '-r next-logger'
+ENV PORT=3000
+ENV TZ=Europe/Oslo
 
 WORKDIR /app
 
@@ -10,11 +12,11 @@ COPY .next/standalone ./
 # Statiske assets (standalone forventer dem her)
 COPY .next/static ./.next/static
 COPY public ./public
-# Drizzle-migreringer (kobles til migrate.mjs i neste steg)
+# Drizzle-migreringer kjøres fra src/instrumentation.ts ved oppstart
 COPY drizzle/migrations ./drizzle/migrations
 COPY next-logger.config.js ./
-COPY migrate.mjs ./
 
 EXPOSE 3000
 
-CMD ["migrate.mjs"]
+# Baseimaget har ENTRYPOINT ["node"], så CMD skal kun inneholde scriptnavnet
+CMD ["server.js"]

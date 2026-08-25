@@ -32,5 +32,30 @@ export async function startBot(): Promise<void> {
     handlers.forEach((handler) => handler(app))
     await app.start()
 
+    registerShutdownHandlers(app)
+
     botLogger.info(`Started bolt app in socket mode`)
+}
+
+let shutdownRegistered = false
+
+function registerShutdownHandlers(app: ReturnType<typeof createApp>): void {
+    if (shutdownRegistered) return
+    shutdownRegistered = true
+
+    const stop = async (signal: string): Promise<void> => {
+        botLogger.info(`Mottok ${signal}, stopper bolt app...`)
+        try {
+            await app.stop()
+            botLogger.info('Bolt app stoppet')
+        } catch (err) {
+            botLogger.error({ err }, 'Klarte ikke å stoppe bolt app')
+        }
+    }
+
+    // Next registrerer sine egne SIGTERM/SIGINT-handlere og kaller process.exit(0)
+    // når serveren er lukket. Vi kappes derfor mot den om å rekke å lukke
+    // websocket-tilkoblingen, men Slack rydder uansett opp ved disconnect.
+    process.once('SIGTERM', () => void stop('SIGTERM'))
+    process.once('SIGINT', () => void stop('SIGINT'))
 }

@@ -13,7 +13,6 @@
         "start": "next start",
         "lint": "next lint",
         "test": "vitest run",
-        "start:migrate": "yarn drizzle:migrate && yarn start",
         "drizzle:generate": "drizzle-kit generate",
         "drizzle:migrate": "drizzle-kit migrate",
         "drizzle:studio": "drizzle-kit studio",
