@@ -17,4 +17,4 @@ COPY migrate.mjs ./
 
 EXPOSE 3000
 
-CMD ["node", "migrate.mjs"]
+CMD ["migrate.mjs"]
