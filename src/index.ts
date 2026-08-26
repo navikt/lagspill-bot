@@ -5,17 +5,13 @@ import { join } from 'node:path'
 import { Pool } from 'pg'
 
 import { startBot, stopBot } from './bot'
+import { databaseUrl } from './db/connection'
 import { getServerEnv } from './utils/env'
 
 async function runMigrations(): Promise<void> {
-    const connectionString = process.env.NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_URL
-    if (!connectionString) {
-        throw new Error('Mangler NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_URL')
-    }
-
     // Egen pool: migreringen er en engangsjobb og skal ikke dele tilkoblinger
     // med db()-singelen, som lever hele prosessens levetid
-    const pool = new Pool({ connectionString, max: 1 })
+    const pool = new Pool({ connectionString: databaseUrl(), max: 1 })
 
     try {
         logger.info('Kjører databasemigreringer...')

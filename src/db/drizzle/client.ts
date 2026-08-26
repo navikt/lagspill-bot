@@ -1,18 +1,15 @@
 import { drizzle, type NodePgDatabase } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
 
+import { databaseUrl } from '../connection'
+
 import * as schema from './schema'
 
 let instance: NodePgDatabase<typeof schema> | null = null
 
 export function db(): NodePgDatabase<typeof schema> {
     if (instance == null) {
-        const connectionString = process.env.NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_URL
-        if (!connectionString) {
-            throw new Error('Missing NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_URL')
-        }
-
-        instance = drizzle(new Pool({ connectionString }), { schema })
+        instance = drizzle(new Pool({ connectionString: databaseUrl() }), { schema })
     }
 
     return instance
