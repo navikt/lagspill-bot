@@ -46,18 +46,17 @@ export function configureStartGameEventsHandler(app: App): void {
         const { slackChannelId, gameId } = getFromMetaData(body);
         const game = await getOpenGameById(gameId)
         if (!game) {
-            botLogger.error(`submitStartgameGameCallback - No game for game: ${gameId}`)
+            botLogger.info(`submitStartgameGameCallback - No game for game: ${gameId}`)
             throw new Error('No game')
         }
-        botLogger.info('open game')
-        botLogger.info(game)
+        botLogger.info(`Starter spill ${game.id} i kanal ${slackChannelId}`)
         const participants = await getPeopleInWaitingRoom(game.id)
         const inputPhysical = view.state.values.antall_fysiske_lag.input.value || '';
         const inputDigital = view.state.values.antall_digitale_lag.input.value || '';
         const numberOfPhysicalTeams = Number.parseInt(inputPhysical);
         const numberOfDigitalTeams = Number.parseInt(inputDigital);
         if(Number.isNaN(numberOfPhysicalTeams) || Number.isNaN(numberOfDigitalTeams)) {
-            botLogger.error(`invalid input for number of teams. physical: ${inputPhysical}, digital: ${inputDigital}`)
+            botLogger.info(`invalid input for number of teams. physical: ${inputPhysical}, digital: ${inputDigital}`)
             throw new Error('invalid input for number of teams')
         }
 

@@ -1,7 +1,6 @@
 import { Block, KnownBlock } from '@slack/types'
 
 import { getTeamMembersString } from '../../utils/gameteam'
-import {botLogger} from "../bot-logger";
 import { type GameTeamWithMembers } from '../../db/gameteam'
 
 export function postGameResultsBlocks(gameTeams: GameTeamWithMembers[]): (KnownBlock | Block)[] {
@@ -17,9 +16,6 @@ export function postGameResultsBlocks(gameTeams: GameTeamWithMembers[]): (KnownB
             },
         ]
     })
-    botLogger.info('postgameresults')
-    botLogger.info(fields)
-    botLogger.info(fields.flat())
     return [
         {
             type: 'header',

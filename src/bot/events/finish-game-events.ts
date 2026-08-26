@@ -48,7 +48,7 @@ export function configureFinishGameEventsHandler(app: App): void {
         const {slackChannelId, gameId} = getFromMetaData(body);
         const slackUserId = body.user.id
         if(Number.isNaN(gameId)) {
-            botLogger.error(`Could not find gameid in submitFinishGameCallbackId`)
+            botLogger.info(`Could not find gameid in submitFinishGameCallbackId`)
             await ack()
             return
         }
@@ -59,14 +59,11 @@ export function configureFinishGameEventsHandler(app: App): void {
             const score = Number.parseInt(teamScores[idStr].score.value);
             return {id, score};
         }).sort((a, b) => b.score - a.score)
-        botLogger.info('sortedScoresWithIds')
-        botLogger.info(sortedScoresWithIds)
         const gameTeamPromises = sortedScoresWithIds.map((idAndScore, index) => {
             botLogger.info(`update score for gameTeam ${idAndScore.id}, score: ${idAndScore.score}`)
             return updateScoreAndPlacement(idAndScore.id, idAndScore.score, index + 1);
         })
         const updatedGameTeams = await Promise.all(gameTeamPromises);
-        botLogger.info(updatedGameTeams)
         await finishGameWithId(gameId);
 
         await ack()
@@ -75,8 +72,6 @@ export function configureFinishGameEventsHandler(app: App): void {
             text: 'Takk, spillet er fullført. Start et nytt spill med kommandoen /lagspill',
             user: slackUserId,
         })
-        botLogger.info('updatedGameTeams')
-        botLogger.info(updatedGameTeams)
         await client.chat.postMessage({
             channel: slackChannelId,
             blocks: postGameResultsBlocks(updatedGameTeams),

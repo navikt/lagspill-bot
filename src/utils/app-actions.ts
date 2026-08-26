@@ -6,7 +6,7 @@ export function getIdFromMessageAction(body: SlackAction, actionId: string) {
     const actionValue = bodyAction?.value || ''
     const numericalValue = Number.parseInt(actionValue);
     if(Number.isNaN(numericalValue)) {
-        botLogger.error(`Could not find gamecategoryid in action: ${JSON.stringify(bodyAction)}`)
+        botLogger.info(`Could not find gamecategoryid in action: ${JSON.stringify(bodyAction)}`)
         return null;
     }
     return numericalValue;

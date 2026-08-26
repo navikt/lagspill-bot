@@ -1,12 +1,9 @@
 import { ModalView } from '@slack/bolt'
-import {botLogger} from "../../bot/bot-logger";
 
 import { type WaitingPerson } from '../../db/drizzle'
 
 export const submitStartGameCallbackId = 'submit-start-game'
 export function startGameModal(slackChannelId: string, gameId: number, waitingPeople: WaitingPerson[]): ModalView {
-    botLogger.info('botlogger')
-    botLogger.info(waitingPeople)
     const antallDigitalePåmeldte = waitingPeople.filter(person => !person.isAtOffice).length
     const antallFysiskPåmeldte = waitingPeople.filter(person => person.isAtOffice).length
     return {

@@ -13,7 +13,7 @@ export function configureDeleteGameEventsHandler(app: App): void {
         const gameId = Number.parseInt(gameIdString);
         const game = await getGameById(gameId)
         if (!game) {
-            botLogger.error(`Could not find gameid in action: ${JSON.stringify(bodyAction)}`)
+            botLogger.info(`Could not find gameid in action: ${JSON.stringify(bodyAction)}`)
             await ack()
             await client.chat.postEphemeral({
                 channel: slackChannelId,

@@ -32,7 +32,7 @@ function registerShutdownHandlers(): void {
             logger.info('Bolt app stoppet')
             process.exit(0)
         } catch (err) {
-            logger.error({ err }, 'Klarte ikke å stoppe bolt app')
+            logger.warn({ err }, 'Klarte ikke å stoppe bolt app')
             process.exit(1)
         }
     }
@@ -54,6 +54,6 @@ async function main(): Promise<void> {
 
 main().catch((err: unknown) => {
     const cause = err instanceof Error ? err.cause : undefined
-    logger.error({ err, cause }, 'Applikasjonen klarte ikke å starte')
+    logger.warn({ err, cause }, 'Applikasjonen klarte ikke å starte')
     process.exit(1)
 })

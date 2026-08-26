@@ -39,15 +39,13 @@ export function configureSignupEventsHandler(app: App): void {
     app.action(signUpForGameActionId, async ({ ack, body, client }) => {
         const userId = body.user.id
         const slackChannelId = body.channel?.id ?? ''
-        botLogger.info('useruser')
-        botLogger.info(body)
         const gameId = getIdFromMessageAction(body, signUpForGameActionId)
         if(!gameId) {
             throw new Error('no gameid for signupforgameactionid')
         }
         const game = await getOpenGameById(gameId)
         if (!game) {
-            botLogger.error(`No game for gameId: ${gameId}`)
+            botLogger.info(`No game for gameId: ${gameId}`)
             await client.chat.postEphemeral({
                 text: 'Fant ikke spill. Start et nytt spill med kommandown /lagspill.',
                 channel: slackChannelId,
@@ -69,13 +67,13 @@ export function configureSignupEventsHandler(app: App): void {
     app.view(submitSignupToGameCallbackId, async ({ ack, view, body, client }) => {
         const { slackChannelId, gameId} = getFromMetaData(body)
         if(Number.isNaN(gameId)) {
-            botLogger.error(`parseInt error: ${gameId}`)
+            botLogger.info(`parseInt error: ${gameId}`)
             throw new Error('parseInt Error')
         }
 
         const game = await getOpenGameById(gameId)
         if (!game) {
-            botLogger.error(`Game not found for gameId: ${gameId}`)
+            botLogger.info(`Game not found for gameId: ${gameId}`)
             throw new Error('Missing channel')
         }
 
@@ -85,7 +83,7 @@ export function configureSignupEventsHandler(app: App): void {
         const isAtTheOffice = isAtTheOfficeText === 'ja'
         const person = await getPerson(slackUserId)
         if(!person){
-            botLogger.error(`Person not found for slackUserId: ${slackUserId}`)
+            botLogger.info(`Person not found for slackUserId: ${slackUserId}`)
             throw new Error('parseInt Error')
         }
         if(userDisplayName){
