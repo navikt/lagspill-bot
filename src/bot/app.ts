@@ -1,7 +1,8 @@
 import { Logger, LogLevel } from '@slack/logger'
 import { App as BoltApp } from '@slack/bolt'
-import { lazyNextleton } from 'nextleton'
-import { logger } from '@navikt/next-logger'
+import { logger } from '@navikt/pino-logger'
+
+import { healthRoutes } from './health'
 
 const slackLogger = logger.child({ x_context: 'slack-bot', x_isSlack: true })
 
@@ -22,18 +23,25 @@ const loggerAdapter: Logger = {
     setName: (): void => void 0,
 }
 
-const app = lazyNextleton(
-    'bolt',
-    () =>
-        new BoltApp({
+let instance: BoltApp | null = null
+
+// Bolt sin SocketModeReceiver starter en egen HTTP-server for customRoutes
+// og lytter på port 3000. Det er den som svarer på nais-probene.
+function createApp(): BoltApp {
+    if (instance == null) {
+        instance = new BoltApp({
             socketMode: true,
             token: process.env.SLACK_BOT_TOKEN,
             signingSecret: process.env.SLACK_SIGNING_SECRET,
             appToken: process.env.SLACK_APP_TOKEN,
             logger: loggerAdapter,
             logLevel: LogLevel.DEBUG,
-        }),
-)
+            customRoutes: healthRoutes,
+        })
+    }
+
+    return instance
+}
 
 export type App = BoltApp
-export default app
+export default createApp

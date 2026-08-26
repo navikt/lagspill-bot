@@ -30,8 +30,6 @@ jobs:
         run: yarn install --immutable
       - run: yarn test
       - run: yarn build
-        env:
-          NEXT_PUBLIC_ENVIRONMENT: dev
       - name: Push docker image to GAR
         uses: nais/docker-build-push@v0
         id: docker-build-push

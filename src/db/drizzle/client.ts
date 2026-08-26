@@ -1,17 +1,21 @@
-import { drizzle } from 'drizzle-orm/node-postgres'
-import { lazyNextleton } from 'nextleton'
+import { drizzle, type NodePgDatabase } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
 
 import * as schema from './schema'
 
-export const db = lazyNextleton('drizzle', () => {
-    const connectionString = process.env.NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_URL
-    if (!connectionString) {
-        throw new Error('Missing NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_URL')
+let instance: NodePgDatabase<typeof schema> | null = null
+
+export function db(): NodePgDatabase<typeof schema> {
+    if (instance == null) {
+        const connectionString = process.env.NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_URL
+        if (!connectionString) {
+            throw new Error('Missing NAIS_DATABASE_LAGSPILL_BOT_LAGSPILL_BOT_URL')
+        }
+
+        instance = drizzle(new Pool({ connectionString }), { schema })
     }
 
-    const pool = new Pool({ connectionString })
-    return drizzle(pool, { schema })
-})
+    return instance
+}
 
 export * from './schema'

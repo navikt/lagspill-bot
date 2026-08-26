@@ -24,5 +24,3 @@ jobs:
         run: yarn install --immutable
       - run: yarn test
       - run: yarn build
-        env:
-          NEXT_PUBLIC_ENVIRONMENT: dev
