@@ -20,5 +20,8 @@ tsconfig.tsbuildinfo
 # next
 .next
 
+# esbuild output
+dist
+
 .DS_Store
 .github/.DS_Store

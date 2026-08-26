@@ -1,11 +1,10 @@
-import { GameTeam } from '.prisma/client'
 import { Block, KnownBlock } from '@slack/types'
 
 import { getTeamMembersString } from '../../utils/gameteam'
-import {botLogger} from "../bot-logger";
+import { type GameTeamWithMembers } from '../../db/gameteam'
 
-export function postGameResultsBlocks(gameTeams: GameTeam[]): (KnownBlock | Block)[] {
-    const fields = gameTeams.map((team: GameTeam) => {
+export function postGameResultsBlocks(gameTeams: GameTeamWithMembers[]): (KnownBlock | Block)[] {
+    const fields = gameTeams.map((team: GameTeamWithMembers) => {
         return [
             {
                 type: 'mrkdwn',
@@ -17,9 +16,6 @@ export function postGameResultsBlocks(gameTeams: GameTeam[]): (KnownBlock | Bloc
             },
         ]
     })
-    botLogger.info('postgameresults')
-    botLogger.info(fields)
-    botLogger.info(fields.flat())
     return [
         {
             type: 'header',
@@ -35,7 +31,7 @@ export function postGameResultsBlocks(gameTeams: GameTeam[]): (KnownBlock | Bloc
         }
     ]
 }
-export function postGameTeamsMessageBlocks(gameTeams: GameTeam[], gamelink?: string): (KnownBlock | Block)[] {
+export function postGameTeamsMessageBlocks(gameTeams: GameTeamWithMembers[], gamelink?: string): (KnownBlock | Block)[] {
     const teams: Block[][] = gameTeams.map((team, index) => [
         {
             type: 'section',

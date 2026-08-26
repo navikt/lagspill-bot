@@ -1,20 +1,11 @@
 import { z, ZodError } from 'zod'
 
-export type PublicEnv = z.infer<typeof publicEnvSchema>
-const publicEnvSchema = z.object({
-    NEXT_PUBLIC_ENVIRONMENT: z.union([z.literal('local'), z.literal('dev'), z.literal('production')]),
-})
-
 export type ServerEnv = z.infer<typeof serverEnvSchema>
 export const serverEnvSchema = z.object({
     SLACK_SIGNING_SECRET: z.string(),
     SLACK_BOT_TOKEN: z.string(),
     SLACK_APP_TOKEN: z.string(),
 })
-
-export const browserEnv = publicEnvSchema.parse({
-    NEXT_PUBLIC_ENVIRONMENT: process.env.NEXT_PUBLIC_ENVIRONMENT,
-} satisfies Record<keyof PublicEnv, string | undefined>)
 
 const getRawServerConfig = (): Partial<unknown> =>
     ({
@@ -25,11 +16,11 @@ const getRawServerConfig = (): Partial<unknown> =>
     }) satisfies Record<keyof ServerEnv, string | undefined>
 
 /**
- * Server envs are lazy loaded and verified using Zod.
+ * Server envs are verified using Zod.
  */
-export function getServerEnv(): ServerEnv & PublicEnv {
+export function getServerEnv(): ServerEnv {
     try {
-        return { ...serverEnvSchema.parse(getRawServerConfig()), ...publicEnvSchema.parse(browserEnv) }
+        return serverEnvSchema.parse(getRawServerConfig())
     } catch (e) {
         if (e instanceof ZodError) {
             throw new Error(

@@ -1,12 +1,13 @@
 import { App } from '../../bot/app'
 import {botLogger} from "../../bot/bot-logger";
 import {
-    finishGameWithId, getActiveGameById,
+    finishGameWithId, getActiveGameById, getGameById, getGameCategoryById,
     getGameTeamWithTeamMembers,
     getGameWithGameTeams,
     updateScoreAndPlacement
 } from "../../db";
 import {postGameResultsBlocks} from "../../bot/messages/post-game-teams";
+import {buildLeaderboardBlocks} from "../leaderboard-service";
 import {finishGameActionId} from "../../bot/messages/message-actions";
 import {finishGameModal, submitFinishGameCallbackId} from "../../bot/modals/finish-game-modal";
 import {getIdFromMessageAction} from "../../utils/app-actions";
@@ -47,7 +48,7 @@ export function configureFinishGameEventsHandler(app: App): void {
         const {slackChannelId, gameId} = getFromMetaData(body);
         const slackUserId = body.user.id
         if(Number.isNaN(gameId)) {
-            botLogger.error(`Could not find gameid in submitFinishGameCallbackId`)
+            botLogger.info(`Could not find gameid in submitFinishGameCallbackId`)
             await ack()
             return
         }
@@ -58,14 +59,11 @@ export function configureFinishGameEventsHandler(app: App): void {
             const score = Number.parseInt(teamScores[idStr].score.value);
             return {id, score};
         }).sort((a, b) => b.score - a.score)
-        botLogger.info('sortedScoresWithIds')
-        botLogger.info(sortedScoresWithIds)
         const gameTeamPromises = sortedScoresWithIds.map((idAndScore, index) => {
             botLogger.info(`update score for gameTeam ${idAndScore.id}, score: ${idAndScore.score}`)
             return updateScoreAndPlacement(idAndScore.id, idAndScore.score, index + 1);
         })
         const updatedGameTeams = await Promise.all(gameTeamPromises);
-        botLogger.info(updatedGameTeams)
         await finishGameWithId(gameId);
 
         await ack()
@@ -74,11 +72,22 @@ export function configureFinishGameEventsHandler(app: App): void {
             text: 'Takk, spillet er fullført. Start et nytt spill med kommandoen /lagspill',
             user: slackUserId,
         })
-        botLogger.info('updatedGameTeams')
-        botLogger.info(updatedGameTeams)
         await client.chat.postMessage({
             channel: slackChannelId,
             blocks: postGameResultsBlocks(updatedGameTeams),
         })
+
+        const finishedGame = await getGameById(gameId)
+        if (finishedGame) {
+            const gameCategory = await getGameCategoryById(finishedGame.gameCategoryId)
+            if (gameCategory) {
+                const now = new Date()
+                await client.chat.postMessage({
+                    channel: slackChannelId,
+                    text: `Ledertavle – ${gameCategory.name} ${now.getFullYear()}`,
+                    blocks: await buildLeaderboardBlocks(gameCategory, now, finishedGame.date ?? undefined),
+                })
+            }
+        }
     })
 }

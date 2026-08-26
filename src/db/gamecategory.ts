@@ -1,26 +1,36 @@
-import { GameCategory, prisma } from "./prisma";
+import { and, eq } from 'drizzle-orm'
+
+import { db, gameCategories, channels, type GameCategory } from './drizzle'
 
 export async function getGameCategories(channelId: number): Promise<Array<GameCategory>> {
-    return await prisma().gameCategory.findMany({
-        where: {
-            channelId,
-        },
-    })
+    return db().select().from(gameCategories).where(and(eq(gameCategories.channelId, channelId)))
 }
 export async function getFirstGameCategory(channelId: number): Promise<GameCategory | null> {
-    return await prisma().gameCategory.findMany({
-        where: {
-            channelId,
-        },
-    }).then(categories => categories?.[0]);
+    const [category] = await db()
+        .select()
+        .from(gameCategories)
+        .where(eq(gameCategories.channelId, channelId))
+        .limit(1)
+    return category ?? null
+}
+export async function getGameCategoryById(gameCategoryId: number): Promise<GameCategory | null> {
+    const [category] = await db()
+        .select()
+        .from(gameCategories)
+        .where(eq(gameCategories.id, gameCategoryId))
+        .limit(1)
+    return category ?? null
 }
 export async function createGameCategory(channelId: number, name: string): Promise<GameCategory> {
-    return await prisma().gameCategory.create({
-        data: {
+    const [category] = await db()
+        .insert(gameCategories)
+        .values({
             name,
-            channel: {
-                connect: { id: channelId },
-            },
-        },
-    })
+            channelId,
+        })
+        .returning()
+    if (!category) {
+        throw new Error('Failed to create game category')
+    }
+    return category
 }

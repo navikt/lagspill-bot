@@ -21,7 +21,7 @@ For å kunne installere avhengighetene må du opprette en Personal Access Token 
 
 Denne PAT-en skal _kun_ ha tilgangen `package:read`. Sett denne PAT-en som miljøvariabel på maskinen din.
 
-`export NPM_AUTH_TOKEN=<tokenet du nettopp genererte>`
+`export NODE_AUTH_TOKEN=<tokenet du nettopp genererte>`
 
 i enten `.bashrc` eller `.zshrc` (avhengig av ditt shell).
 
@@ -42,9 +42,9 @@ Du skal nå kunne kjøre `yarn` for å installere avhengighetene uten 401-feil.
     ```bash
     yarn dev:db
     ```
-5. Kjør prisma-migreringene mot databasen:
+5. Kjør Drizzle-migreringene mot databasen:
     ```bash
-    yarn prisma:migrate-dev
+    yarn drizzle:migrate
     ```
 6. Endelig kan vi starte development-serveren:
     ```bash

@@ -1,5 +1,3 @@
-import {  GameCategory} from '.prisma/client'
-
 import { App } from '../app'
 import {
     getActiveGame,
@@ -19,10 +17,12 @@ import {
 } from '../../bot/messages/message-actions'
 import { ActionsBlockElement, Block } from '@slack/types'
 import { mapGamesToPersonalStatsMap, PersonGameStats, topplisteBlocks } from '../../bot/messages/toppliste'
+import { buildLeaderboardBlocks } from '../leaderboard-service'
+import { type GameCategory } from '../../db/drizzle'
 
 export function configureCommandsHandler(app: App): void {
     // /helsesjekk create-game
-    app.command(/(.*)/, async ({ command, ack, respond }) => {
+    app.command(/(.*)/, async ({ command, ack, respond, client }) => {
         const channel = await getOrCreateChannel(command.channel_id, command.channel_name)
         const gameCategories = (await getGameCategories(channel.id)) || []
         if (command.text === 'min-statistikk') {
@@ -69,6 +69,25 @@ export function configureCommandsHandler(app: App): void {
                 })
             }
             return;
+        } else if (command.text === 'leaderboard') {
+            await ack()
+            if (!gameCategories.length) {
+                await respond({
+                    response_type: 'ephemeral',
+                    text: 'Ingen spillkategorier i denne kanalen enda.',
+                })
+                return
+            }
+            const year = new Date().getFullYear()
+            for (const gameCategory of gameCategories) {
+                const now = new Date()
+                await client.chat.postMessage({
+                    channel: command.channel_id,
+                    text: `Ledertavle – ${gameCategory.name} ${year}`,
+                    blocks: await buildLeaderboardBlocks(gameCategory, now),
+                })
+            }
+            return
         }
 
         await ack()
