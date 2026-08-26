@@ -68,11 +68,17 @@ export const gameTeamMembers = pgTable(
     }),
 )
 
-export const waitingPeople = pgTable('WaitingPerson', {
-    userId: integer('userId').notNull(),
-    gameId: integer('gameId').notNull(),
-    isAtOffice: boolean('isAtOffice').notNull(),
-})
+export const waitingPeople = pgTable(
+    'WaitingPerson',
+    {
+        userId: integer('userId').notNull(),
+        gameId: integer('gameId').notNull(),
+        isAtOffice: boolean('isAtOffice').notNull(),
+    },
+    (table) => ({
+        pk: primaryKey({ columns: [table.userId, table.gameId] }),
+    }),
+)
 
 export const channelRelations = relations(channels, ({ many }) => ({
     gameCategories: many(gameCategories),
