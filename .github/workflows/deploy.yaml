@@ -48,12 +48,15 @@ jobs:
       contents: 'read'
       id-token: 'write'
     environment:
-      name: development
+      name: dev-gcp
     steps:
       - uses: actions/checkout@v7
+      - uses: nais/login@v0
+        id: login
+        with:
+          team: aap
       - uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais.yml
           VAR: image=${{ needs.build-and-publish-dev.outputs.image }}
