@@ -28,7 +28,7 @@
         "drizzle-orm": "^0.45.2",
         "pg": "^8.16.3",
         "pino": "^9.14.0",
-        "zod": "^4.4.3"
+        "zod": "^4.6.6"
     },
     "devDependencies": {
         "@navikt/eslint-config-teamsykmelding": "^8.1.1",
