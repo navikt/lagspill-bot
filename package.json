@@ -45,7 +45,7 @@
         "prettier": "^3.8.1",
         "tsx": "^4.19.0",
         "typescript": "^5.9.3",
-        "vitest": "^4.1.11"
+        "vitest": "^4.1.12"
     },
     "resolutions": {
         "postcss": "8.5.12"
