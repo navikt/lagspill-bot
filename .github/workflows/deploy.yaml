@@ -55,7 +55,7 @@ jobs:
         id: login
         with:
           team: aap
-      - uses: nais/deploy/actions/deploy@v2
+      - uses: nais/deploy/actions/deploy@v3
         env:
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais.yml
